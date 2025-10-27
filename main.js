@@ -135,7 +135,7 @@ const filePreviewContainer = document.getElementById('file-preview-container');
 const fileConfirmStatus = document.getElementById('file-confirm-status');
 const cancelFileUploadBtn = document.getElementById('cancel-file-upload');
 const confirmFileUploadBtn = document.getElementById('confirm-file-upload');
-const mainNav = document.querySelector('nav');
+const mainNav = document.getElementById('mainNav');
 const navChatsBtn = document.getElementById('nav-chats-btn');
 const navStudioBtn = document.getElementById('nav-studio-btn');
 const navSettingsBtn = document.getElementById('nav-settings-btn');
@@ -956,6 +956,11 @@ const listenForGlobalSettings = () => {
 };
 
 const startApp = async () => {
+  const loadingDiv = document.getElementById('loading');
+  if (loadingDiv) {
+      loadingDiv.remove();
+  }
+
   const appAccessGranted = localStorage.getItem(APP_ACCESS_KEY);
 
   if (!appAccessGranted) {

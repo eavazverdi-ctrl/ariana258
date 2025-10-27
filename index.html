@@ -52,109 +52,21 @@
       }
       .persistent-hover-bg:active::after { background-color: rgb(209 213 219 / 0.6); } @media (hover: hover) and (pointer: fine) { .persistent-hover-bg:hover::after { background-color: rgb(209 213 219 / 0.6);
       }
-      
-      .chat-info-name {
-        /* Add styles for chat info name if needed */
       }
-      
-      .chat-info-status {
-        /* Add styles for chat info status if needed */
-      }
-      
-      .chat-info-time {
-        /* Add styles for chat info time if needed */
-      }
-      
-      /* New persistent hover effect for chat items/buttons that need it */
-      .persistent-hover-bg-chat::after {
-          content: '';
-          position: absolute;
-          inset: 0;
-          border-radius: 0.75rem; /* rounded-xl */
-          background-color: rgb(209 213 219 / 0.3);
-          transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
-          z-index: -1;
-      }
-      .persistent-hover-bg-chat:active::after {
-          background-color: rgb(209 213 219 / 0.6);
-      }
-      @media (hover: hover) and (pointer: fine) {
-          .persistent-hover-bg-chat:hover::after {
-              background-color: rgb(209 213 219 / 0.6);
-          }
-      }
-      
-      /* Specific styles for message bubbles if they exist */
-      .message-bubble-self {
-        /* Styles for messages sent by the user */
-      }
-      
-      .message-bubble-other {
-        /* Styles for messages received from others */
-      }
-      
-      /* Modal transition styles */
-      .modal-enter-active, .modal-leave-active {
-        transition: opacity 0.3s ease;
-      }
-      .modal-enter-from, .modal-leave-to {
-        opacity: 0;
-      }
-      
-      /* Tab bar styles */
-      #tab-bar {
-          -webkit-tap-highlight-color: transparent;
-      }
-      
-      .view-container {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        transition: transform 0.3s ease-out; /* Add transition for sliding */
-      }
-      
     </style>
+    <script type="importmap">
+    {
+      "imports": {
+        "path": "https://aistudiocdn.com/path@^0.12.7",
+        "url": "https://aistudiocdn.com/url@^0.11.4",
+        "vite": "https://aistudiocdn.com/vite@^7.1.12"
+      }
+    }
+    </script>
   </head>
-  <body>
-    <svg width="637" height="414" viewBox="0 0 637 414" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<foreignObject x="32.6501" y="-32.6527" width="571.424" height="155.101"><div xmlns="http://www.w3.org/1999/xhtml" style="backdrop-filter:blur(16.33px);clip-path:url(#bgblur_0_50_1385_clip_path);height:100%;width:100%"></div></foreignObject><rect data-figma-bg-blur-radius="32.6528" x="65.3029" y="3.05176e-05" width="506.118" height="89.7951" rx="32.6528" fill="#16A1FB" fill-opacity="0.16"/>
-<rect x="32.6512" y="16.3273" width="571.423" height="333.058" rx="26.1222" fill="url(#paint0_linear_50_1385)"/>
-<path d="M64.8771 45.8632H67.9171L74.2027 62.183H71.1399L69.6085 57.8631H63.0943L61.5628 62.183H58.6143L64.8771 45.8632ZM63.8714 55.6917H68.8542L66.4085 48.6746H66.3399L63.8714 55.6917ZM75.4597 45.8632H78.0654V62.183H75.4597V45.8632ZM80.973 45.8632H83.5787V62.183H80.973V45.8632ZM95.0193 56.7431C95.0193 57.3678 95.126 57.9012 95.3393 58.3431C95.5527 58.785 95.8498 59.1507 96.2307 59.4402C96.6117 59.7145 97.046 59.9202 97.5336 60.0573C98.0364 60.1793 98.5774 60.2402 99.1564 60.2402C99.7812 60.2402 100.315 60.1716 100.756 60.0345C101.198 59.8821 101.556 59.6916 101.831 59.4631C102.105 59.2345 102.303 58.9755 102.425 58.6859C102.547 58.3812 102.608 58.0764 102.608 57.7717C102.608 57.1469 102.463 56.6898 102.174 56.4002C101.899 56.0955 101.595 55.8821 101.259 55.7602C100.68 55.5469 100.002 55.3488 99.225 55.166C98.4631 54.9679 97.5184 54.7164 96.3907 54.4117C95.6898 54.2288 95.1031 53.9926 94.6308 53.7031C94.1736 53.3984 93.8079 53.0631 93.5336 52.6974C93.2593 52.3317 93.0612 51.9431 92.9393 51.5317C92.8327 51.1203 92.7793 50.7012 92.7793 50.2746C92.7793 49.4517 92.947 48.7432 93.2822 48.1489C93.6327 47.5394 94.0898 47.0365 94.6536 46.6403C95.2174 46.2441 95.8574 45.9546 96.5736 45.7718C97.2898 45.5737 98.0136 45.4746 98.745 45.4746C99.5983 45.4746 100.398 45.5889 101.145 45.8175C101.907 46.0308 102.57 46.3584 103.134 46.8003C103.713 47.2422 104.17 47.7908 104.505 48.446C104.84 49.086 105.008 49.8327 105.008 50.686H102.151C102.074 49.6346 101.716 48.8955 101.076 48.4689C100.436 48.027 99.6212 47.806 98.6307 47.806C98.2955 47.806 97.9526 47.8441 97.6022 47.9203C97.2517 47.9813 96.9317 48.0956 96.6422 48.2632C96.3526 48.4155 96.1088 48.6289 95.9107 48.9032C95.7279 49.1774 95.6365 49.5203 95.6365 49.9317C95.6365 50.5108 95.8117 50.9679 96.1622 51.3031C96.5279 51.6231 97.0003 51.8669 97.5793 52.0346C97.6403 52.0498 97.8764 52.1184 98.2879 52.2403C98.7145 52.3469 99.1869 52.4688 99.705 52.606C100.223 52.7431 100.726 52.8803 101.214 53.0174C101.716 53.1393 102.074 53.2307 102.288 53.2917C102.821 53.4593 103.286 53.6879 103.682 53.9774C104.078 54.2669 104.406 54.6022 104.665 54.9831C104.939 55.3488 105.137 55.745 105.259 56.1717C105.396 56.5983 105.465 57.025 105.465 57.4517C105.465 58.3659 105.274 59.1507 104.894 59.8059C104.528 60.4459 104.04 60.9716 103.431 61.3831C102.821 61.7945 102.128 62.0916 101.351 62.2745C100.574 62.4726 99.7812 62.5716 98.9736 62.5716C98.0441 62.5716 97.1679 62.4573 96.345 62.2288C95.5222 62.0002 94.806 61.6497 94.1965 61.1773C93.587 60.705 93.0993 60.1031 92.7336 59.3716C92.3679 58.625 92.1774 57.7488 92.1622 56.7431H95.0193ZM106.412 50.366H108.378V46.8232H110.983V50.366H113.338V52.3088H110.983V58.6174C110.983 58.8916 110.991 59.1278 111.006 59.3259C111.037 59.524 111.09 59.6916 111.166 59.8288C111.258 59.9659 111.387 60.0726 111.555 60.1488C111.723 60.2097 111.951 60.2402 112.241 60.2402C112.423 60.2402 112.606 60.2402 112.789 60.2402C112.972 60.225 113.155 60.1945 113.338 60.1488V62.1602C113.048 62.1907 112.766 62.2211 112.492 62.2516C112.218 62.2821 111.936 62.2973 111.646 62.2973C110.961 62.2973 110.404 62.2364 109.978 62.1145C109.566 61.9773 109.239 61.7869 108.995 61.5431C108.766 61.284 108.606 60.964 108.515 60.5831C108.439 60.2021 108.393 59.7678 108.378 59.2802V52.3088H106.412V50.366ZM120.629 62.503C119.685 62.503 118.839 62.3507 118.092 62.0459C117.361 61.7259 116.736 61.2916 116.218 60.7431C115.715 60.1945 115.326 59.5393 115.052 58.7774C114.793 58.0155 114.664 57.1774 114.664 56.2631C114.664 55.3641 114.793 54.5336 115.052 53.7717C115.326 53.0098 115.715 52.3546 116.218 51.806C116.736 51.2574 117.361 50.8308 118.092 50.526C118.839 50.8308 119.685 50.046 120.629 50.046C121.574 50.046 122.412 50.206 123.144 50.526C123.89 50.8308 124.515 51.2574 125.018 51.806C125.536 52.3546 125.924 53.0098 126.184 53.7717C126.458 54.5336 126.595 55.3641 126.595 56.2631C126.595 57.1774 126.458 58.0155 126.184 58.7774C125.924 59.5393 125.536 60.1945 125.018 60.7431C124.515 61.2916 123.89 61.7259 123.144 62.0459C122.412 62.3507 121.574 62.503 120.629 62.503ZM120.629 60.4459C121.208 60.4459 121.711 60.324 122.138 60.0802C122.564 59.8364 122.915 59.5164 123.189 59.1202C123.464 58.724 123.662 58.2821 123.784 57.7945C123.921 57.2917 123.989 56.7812 123.989 56.2631C123.989 55.7602 123.921 55.2574 123.784 54.7545C123.662 54.2517 123.464 53.8098 123.189 53.4288C122.915 53.0327 122.564 52.7127 122.138 52.4688C121.711 52.225 121.208 52.1031 120.629 52.1031C120.05 52.1031 119.547 52.225 119.121 52.4688C118.694 52.7127 118.344 53.0327 118.069 53.4288C117.795 53.8098 117.589 54.2517 117.452 54.7545C117.33 55.2574 117.269 55.7602 117.269 56.2631C117.269 56.7812 117.33 57.2917 117.452 57.7945C117.589 58.2821 117.795 58.724 118.069 59.1202C118.344 59.5164 118.694 59.8364 119.121 60.0802C119.547 60.324 120.05 60.4459 120.629 60.4459ZM128.761 50.366H131.207V52.6517H131.253C131.329 52.3317 131.474 52.0193 131.687 51.7146C131.915 51.4098 132.182 51.1355 132.487 50.8917C132.807 50.6327 133.157 50.427 133.538 50.2746C133.919 50.1222 134.308 50.046 134.704 50.046C135.009 50.046 135.214 50.0536 135.321 50.0689C135.443 50.0841 135.565 50.0993 135.687 50.1146V52.6288C135.504 52.5984 135.313 52.5755 135.115 52.5603C134.933 52.5298 134.75 52.5146 134.567 52.5146C134.125 52.5146 133.706 52.606 133.31 52.7888C132.929 52.9565 132.594 53.2155 132.304 53.566C132.014 53.9012 131.786 54.3203 131.618 54.8231C131.451 55.326 131.367 55.905 131.367 56.5602V62.183H128.761V50.366ZM135.494 50.366H138.351L141.437 59.1888H141.482L144.477 50.366H147.197L142.602 62.823C142.389 63.3564 142.176 63.8668 141.962 64.3545C141.764 64.8421 141.513 65.2687 141.208 65.6344C140.919 66.0154 140.553 66.3125 140.111 66.5259C139.669 66.7544 139.105 66.8687 138.42 66.8687C137.81 66.8687 137.208 66.823 136.614 66.7316V64.5373C136.827 64.5678 137.033 64.5983 137.231 64.6287C137.429 64.6745 137.635 64.6973 137.848 64.6973C138.153 64.6973 138.404 64.6592 138.603 64.583C138.801 64.5068 138.961 64.3925 139.083 64.2402C139.22 64.103 139.334 63.9354 139.425 63.7373C139.517 63.5392 139.601 63.3107 139.677 63.0516L139.974 62.1373L135.494 50.366Z" fill="white"/>
-<path d="M569.789 52.2449C569.789 51.3433 569.058 50.6123 568.156 50.6123C567.254 50.6123 566.523 51.3433 566.523 52.2449C566.523 53.1466 567.254 53.8776 568.156 53.8776C569.058 53.8776 569.789 53.1466 569.789 52.2449Z" fill="white" stroke="white" stroke-width="2.44896" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M558.362 52.2449C558.362 51.3433 557.631 50.6123 556.73 50.6123C555.828 50.6123 555.097 51.3433 555.097 52.2449C555.097 53.1466 555.828 53.8776 556.73 53.8776C557.631 53.8776 558.362 53.1466 558.362 52.2449Z" fill="white" stroke="white" stroke-width="2.44896" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M581.218 52.2449C581.218 51.3433 580.487 50.6123 579.585 50.6123C578.684 50.6123 577.953 51.3433 577.953 52.2449C577.953 53.1466 578.684 53.8776 579.585 53.8776C580.487 53.8776 581.218 53.1466 581.218 52.2449Z" fill="white" stroke="white" stroke-width="2.44896" stroke-linecap="round" stroke-linejoin="round"/>
-<g filter="url(#filter1_d_50_1385)">
-<rect x="58.7748" y="248.16" width="519.179" height="75.1014" rx="19.5917" fill="white"/>
-</g>
-<rect x="511.015" y="256.326" width="58.775" height="58.775" rx="11.4285" fill="#188BEF" fill-opacity="0.12"/>
-<path d="M533.872 287.35V276.738M533.872 287.35C534.305 287.35 534.72 287.522 535.026 287.828C535.332 288.134 535.504 288.55 535.504 288.983C535.504 289.416 535.332 289.831 535.026 290.137C534.72 290.443 534.305 290.615 533.872 290.615M533.872 287.35C533.439 287.35 533.024 287.522 532.717 287.828C532.411 288.134 532.239 288.55 532.239 288.983C532.239 289.416 532.411 289.831 532.717 290.137C533.024 290.443 533.439 290.615 533.872 290.615M533.872 290.615V294.697M546.933 287.35V276.738M546.933 287.35C547.366 287.35 547.781 287.522 548.087 287.828C548.394 288.134 548.566 288.55 548.566 288.983C548.566 289.416 548.394 289.831 548.087 290.137C547.781 290.443 547.366 290.615 546.933 290.615M546.933 287.35C546.5 287.35 546.085 287.522 545.778 287.828C545.472 288.134 545.3 288.55 545.3 288.983C545.3 289.416 545.472 289.831 545.778 290.137C546.085 290.443 546.5 290.615 546.933 290.615M546.933 290.615V294.697M540.402 280.819V276.738M540.402 280.819C540.835 280.819 541.251 280.991 541.557 281.298C541.863 281.604 542.035 282.019 542.035 282.452C542.035 282.885 541.863 283.3 541.557 283.606C541.251 283.913 540.835 284.085 540.402 284.085M540.402 280.819C539.969 280.819 539.554 280.991 539.248 281.298C538.942 281.604 538.77 282.019 538.77 282.452C538.77 282.885 538.942 283.3 539.248 283.606C539.554 283.913 539.969 284.085 540.402 284.085M540.402 284.085V294.697" stroke="#16A1FB" stroke-width="2.12243" stroke-linecap="round" stroke-linejoin="round"/>
-<g opacity="0.7">
-<path d="M94.8306 297.685C101.443 297.685 106.803 292.325 106.803 285.713C106.803 279.1 101.443 273.74 94.8306 273.74C88.2183 273.74 82.8579 279.1 82.8579 285.713C82.8579 292.325 88.2183 297.685 94.8306 297.685Z" stroke="#111D25" stroke-width="2.44896" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M108.301 299.18L103.811 294.69" stroke="#111D25" stroke-width="2.44896" stroke-linecap="round" stroke-linejoin="round"/>
-</g>
-<path opacity="0.4" d="M135.331 285.677C135.227 284.671 134.861 283.946 134.234 283.502C133.62 283.045 132.83 282.817 131.863 282.817C131.471 282.817 131.086 282.856 130.707 282.934C130.329 283.013 129.989 283.143 129.689 283.326C129.401 283.509 129.166 283.757 128.983 284.07C128.813 284.371 128.729 284.75 128.729 285.207C128.729 285.638 128.853 285.99 129.101 286.265C129.362 286.526 129.702 286.741 130.12 286.911C130.551 287.081 131.034 287.225 131.569 287.342C132.105 287.447 132.647 287.564 133.196 287.695C133.757 287.826 134.306 287.982 134.841 288.165C135.377 288.335 135.853 288.57 136.271 288.87C136.702 289.171 137.042 289.55 137.29 290.007C137.551 290.464 137.682 291.039 137.682 291.731C137.682 292.475 137.512 293.189 137.172 293.872C136.845 294.527 136.388 295.075 135.809 295.517C135.245 295.959 134.581 296.287 133.817 296.491C133.053 296.706 132.228 296.813 131.339 296.813C130.563 296.813 129.821 296.721 129.113 296.538C128.405 296.355 127.778 296.068 127.234 295.672C126.703 295.276 126.273 294.749 125.946 294.094C125.619 293.439 125.456 292.68 125.456 291.819H128.328C128.389 292.511 128.69 293.023 129.231 293.35C129.772 293.678 130.417 293.841 131.166 293.841C131.545 293.841 131.917 293.794 132.282 293.7C132.647 293.593 132.968 293.449 133.243 293.266C133.518 293.083 133.746 292.855 133.929 292.58C134.112 292.292 134.204 291.952 134.204 291.569C134.204 291.086 134.072 290.672 133.803 290.322C133.535 289.972 133.184 289.703 132.753 289.511C132.404 289.341 132.064 289.249 131.737 289.234C131.424 289.219 131.112 289.167 130.799 289.076C130.487 289.004 130.174 288.913 129.862 288.806C129.549 288.699 129.237 288.582 128.925 288.451C128.612 288.307 128.312 288.163 128.024 287.989C127.736 287.82 127.464 287.628 127.203 287.413C126.942 287.198 126.703 286.95 126.488 286.675C126.273 286.414 126.09 286.113 125.946 285.773C125.802 285.415 125.73 285.036 125.73 284.639V282.856H128.536V284.146C128.536 284.58 128.567 284.977 128.628 285.335C128.689 285.693 128.82 286.006 129.029 286.278C129.237 286.55 129.512 286.759 129.852 286.883C130.192 287.007 130.584 287.069 131.025 287.069C131.253 287.069 131.492 287.054 131.743 287.023C132.004 287.004 132.282 286.958 132.57 286.883C132.858 286.791 133.15 286.685 133.44 286.561C133.73 286.43 134.02 286.26 134.31 286.051C134.6 285.842 134.869 285.614 135.078 285.365C135.293 285.116 135.456 284.844 135.564 284.543C135.688 284.225 135.75 283.899 135.75 283.56C135.75 283.031 135.597 282.607 135.296 282.28C135.008 281.93 134.618 281.655 134.12 281.454C133.621 281.252 133.057 281.151 132.427 281.151C132.004 281.151 131.586 281.213 131.174 281.337C130.762 281.468 130.404 281.649 130.103 281.877C129.802 282.092 129.563 282.343 129.38 282.639C129.21 282.939 129.125 283.266 129.125 283.624V283.639C129.125 284.053 129.267 284.411 129.555 284.712C129.843 285.013 130.222 285.241 130.692 285.399C131.162 285.556 131.674 285.635 132.228 285.635C132.568 285.635 132.908 285.619 133.243 285.592C133.578 285.561 133.896 285.515 134.197 285.454C134.515 285.399 134.827 285.337 135.139 285.265C135.451 285.193 135.741 285.114 136.012 285.015C136.294 284.908 136.56 284.777 136.814 284.62C137.067 284.457 137.29 284.28 137.473 284.088C137.671 283.896 137.828 283.674 137.942 283.425C138.057 283.176 138.118 282.898 138.125 282.597C138.125 281.889 137.955 281.259 137.615 280.704C137.288 280.168 136.839 279.73 136.26 279.39C135.698 279.05 135.043 278.835 134.298 278.743C133.56 278.652 132.783 278.605 131.966 278.605C131.328 278.605 130.697 278.644 130.076 278.723C129.455 278.809 128.875 278.933 128.339 279.091C127.811 279.248 127.329 279.439 126.891 279.667C126.453 279.895 126.069 280.163 125.73 280.464C125.39 280.764 125.122 281.104 124.923 281.483C124.725 281.869 124.626 282.292 124.626 282.757C124.626 283.256 124.705 283.713 124.868 284.127C125.041 284.524 125.299 284.864 125.64 285.146C125.996 285.428 126.375 285.643 126.772 285.793C127.168 285.942 127.589 286.034 128.034 286.069V284.146" fill="white"/>
-<defs>
-<linearGradient id="paint0_linear_50_1385" x1="16.3273" y1="183.356" x2="624.49" y2="183.356" gradientUnits="userSpaceOnUse">
-<stop stop-color="#16A1FB"/>
-<stop offset="1" stop-color="#16A1FB" stop-opacity="0.31"/>
-</linearGradient>
-<filter id="filter1_d_50_1385" x="50.7748" y="244.16" width="535.179" height="91.1014" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dy="4"/>
-<feGaussianBlur stdDeviation="4"/>
-<feComposite in2="hardAlpha" operator="out"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0.176471 0 0 0 0 0.203922 0 0 0 0 0.231373 0 0 0 0.1 0"/>
-<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_50_1385"/>
-<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_50_1385" result="shape"/>
-</filter>
-<clipPath id="bgblur_0_50_1385_clip_path">
-<rect x="32.6501" y="-32.6527" width="571.424" height="155.101"/>
-</clipPath>
-</defs>
-</svg>
+  <body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
+    <div id="app-background" class="absolute inset-0 -z-10 transition-all duration-500"></div>
+
     <div id="app" class="h-full w-full">
       <div id="loading" class="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-800 z-50">
         <svg class="animate-spin h-8 w-8 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -162,66 +74,184 @@
           <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
         </svg>
       </div>
-      
-      <div id="main-view" class="view-container">
+    
+      <!-- Wrapper for main content, hidden until authenticated -->
+      <div class="h-full w-full">
+        <!-- Username Modal -->
+        <div id="username-modal" class="absolute inset-0 z-40 flex items-center justify-center bg-black/50 view-hidden">
+          <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-xl w-11/12 max-w-sm">
+            <h2 class="text-xl font-bold mb-4 text-center">به آریانا خوش آمدید</h2>
+            <form id="username-form">
+              <input id="username-input" type="text" placeholder="نام خود را وارد کنید" class="w-full p-3 mb-4 border rounded-lg dark:bg-gray-700 dark:border-gray-600" required>
+              <input id="initial-password-input" type="password" placeholder="رمز ورود" class="w-full p-3 mb-4 border rounded-lg dark:bg-gray-700 dark:border-gray-600" required>
+              <label class="block mb-2 text-sm font-medium">آواتار (اختیاری)</label>
+              <div class="flex items-center space-x-4 rtl:space-x-reverse">
+                <div id="initial-user-avatar-preview" class="w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-700 flex-shrink-0"></div>
+                <input id="initial-user-avatar-input" type="file" accept="image/*" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400">
+              </div>
+              <button type="submit" class="w-full bg-blue-600 text-white p-3 rounded-lg mt-6 hover:bg-blue-700 transition">ورود</button>
+            </form>
+          </div>
         </div>
 
-      <div id="chat-view" class="view-container view-hidden transform translate-x-full bg-white dark:bg-gray-900 transition-transform duration-300">
-        <div id="chat-header" class="fixed top-0 w-full z-10 bg-white dark:bg-gray-900 shadow-md p-4 flex items-center justify-between border-b dark:border-gray-700">
-          <div class="flex items-center">
-            <button id="back-to-main" class="p-2 -mr-2 persistent-hover-bg rounded-xl">
-              <svg class="w-6 h-6 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-              </svg>
-            </button>
-            <div class="mr-4">
-              <div id="chat-title" class="text-lg font-bold dark:text-white"></div>
-              <div id="chat-status" class="text-sm text-gray-500 dark:text-gray-400">آنلاین</div>
+        <!-- Settings Modal -->
+        <div id="settings-modal" class="absolute inset-0 z-40 flex items-center justify-center bg-black/50 view-hidden">
+           <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-xl w-11/12 max-w-md max-h-[90vh] overflow-y-auto hide-scrollbar">
+                <h2 class="text-xl font-bold mb-6 text-center">تنظیمات</h2>
+                <form id="user-settings-form" class="space-y-6">
+                    <div>
+                        <label class="block mb-2 text-sm font-medium">پروفایل شما</label>
+                        <div class="flex items-center space-x-4 rtl:space-x-reverse">
+                            <div id="user-avatar-preview" class="w-16 h-16 rounded-full bg-gray-200 flex-shrink-0"></div>
+                            <div class="flex-grow">
+                                <input id="change-username-input" type="text" placeholder="نام کاربری" class="w-full p-2 mb-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600">
+                                <input id="user-avatar-input" type="file" accept="image/*" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400">
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-sm font-medium">اندازه فونت</label>
+                        <div id="font-size-options" class="flex justify-center gap-2" role="group">
+                           <button type="button" data-size="sm" class="font-size-btn p-2 px-4 rounded-lg">کوچک</button>
+                           <button type="button" data-size="md" class="font-size-btn p-2 px-4 rounded-lg">متوسط</button>
+                           <button type="button" data-size="lg" class="font-size-btn p-2 px-4 rounded-lg">بزرگ</button>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-sm font-medium">ارسال با Enter</label>
+                        <div id="send-with-enter-options" class="flex justify-center gap-2" role="group">
+                           <button type="button" data-value="on" class="send-with-enter-btn p-2 px-4 rounded-lg">فعال</button>
+                           <button type="button" data-value="off" class="send-with-enter-btn p-2 px-4 rounded-lg">غیرفعال</button>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-sm font-medium">حالت شیشه‌ای (Glass Mode)</label>
+                         <div id="glass-mode-options" class="flex justify-center gap-2" role="group">
+                           <button type="button" data-glass="on" class="glass-mode-btn p-2 px-4 rounded-lg">فعال</button>
+                           <button type="button" data-glass="off" class="glass-mode-btn p-2 px-4 rounded-lg">غیرفعال</button>
+                        </div>
+                    </div>
+                    <div id="static-background-uploader">
+                        <label class="block mb-2 text-sm font-medium">پس‌زمینه ثابت</label>
+                        <input type="file" id="background-image-input" accept="image/*" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400">
+                        <p id="background-upload-status" class="text-sm text-center h-4 mt-2"></p>
+                    </div>
+                    <div class="border-t pt-4 space-y-2">
+                        <button type="button" id="delete-all-messages-btn" class="w-full bg-red-500 text-white p-2 rounded-lg">حذف همه پیام‌ها</button>
+                        <button type="button" id="clear-studio-cache-btn" class="w-full bg-orange-500 text-white p-2 rounded-lg">پاکسازی استودیو</button>
+                        <button type="button" id="update-app-btn" class="w-full bg-purple-500 text-white p-2 rounded-lg">آپدیت برنامه</button>
+                        <p id="update-status-text" class="text-sm text-center h-4"></p>
+                    </div>
+                    <div class="flex justify-end gap-3 pt-4">
+                        <button type="button" id="settings-cancel-btn" class="px-6 py-2 rounded-lg bg-gray-200 dark:bg-gray-600">لغو</button>
+                        <button type="submit" id="settings-ok-btn" class="px-6 py-2 rounded-lg bg-blue-600 text-white">تایید</button>
+                    </div>
+                </form>
             </div>
-          </div>
-          <div class="flex items-center space-x-2">
-            <button id="call-button" class="p-2 persistent-hover-bg rounded-xl">
-              <svg class="w-6 h-6 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
-              </svg>
-            </button>
-            <button id="video-call-button" class="p-2 persistent-hover-bg rounded-xl">
-              <svg class="w-6 h-6 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9A2.25 2.25 0 004.5 18.75z"></path>
-              </svg>
-            </button>
-            <button id="more-options-button" class="p-2 persistent-hover-bg rounded-xl">
-              <svg class="w-6 h-6 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
-              </svg>
-            </button>
-          </div>
         </div>
-        
-        <div id="messages-container" class="pt-20 pb-20 h-full overflow-y-auto hide-scrollbar flex flex-col-reverse">
-          </div>
 
-        <div id="chat-input-container" class="fixed bottom-0 w-full p-4 bg-white dark:bg-gray-900 border-t dark:border-gray-700 flex items-center space-x-2">
-          <input type="text" id="message-input" class="flex-grow p-3 rounded-full bg-gray-100 dark:bg-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="پیام خود را بنویسید..." dir="rtl">
-          <button id="mic-button" class="p-2 persistent-hover-bg rounded-full text-blue-600 dark:text-blue-400">
-            <svg id="mic-off-svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path>
-            </svg>
-            <svg id="mic-on-svg" class="w-7 h-7 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9A2.25 2.25 0 004.5 18.75z"></path>
-            </svg>
-          </button>
-          <button id="send-button" class="p-2 persistent-hover-bg rounded-full text-blue-600 dark:text-blue-400 hidden">
-            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
-            </svg>
-          </button>
+        <!-- Other Modals -->
+        <div id="view-avatar-modal" class="absolute inset-0 z-40 flex items-center justify-center bg-black/50 view-hidden">
+            <div class="relative bg-white dark:bg-gray-800 p-4 rounded-2xl shadow-xl flex flex-col items-center">
+                <p id="view-avatar-name" class="text-lg font-bold mb-4"></p>
+                <div id="view-avatar-display" class="w-48 h-48 rounded-full overflow-hidden"></div>
+                <button id="close-view-avatar-modal" class="absolute top-2 right-2 p-1 bg-gray-200 rounded-full">&times;</button>
+            </div>
+        </div>
+        <div id="change-user-avatar-in-chat-modal" class="absolute inset-0 z-40 flex items-center justify-center bg-black/50 view-hidden">
+             <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-xl w-11/12 max-w-sm">
+                <h2 class="text-xl font-bold mb-4 text-center">تغییر آواتار</h2>
+                <form id="change-user-avatar-in-chat-form" class="flex flex-col items-center">
+                    <div id="user-avatar-in-chat-preview" class="w-24 h-24 rounded-full bg-gray-200 mb-4"></div>
+                    <input id="user-avatar-in-chat-input" type="file" accept="image/*" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400">
+                    <p id="change-user-avatar-in-chat-status" class="text-sm text-center h-4 my-2"></p>
+                    <div class="flex w-full justify-end gap-3 mt-4">
+                        <button type="button" class="cancel-btn px-6 py-2 rounded-lg bg-gray-200 dark:bg-gray-600">لغو</button>
+                        <button type="submit" class="px-6 py-2 rounded-lg bg-blue-600 text-white">ذخیره</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div id="file-confirm-modal" class="absolute inset-0 z-40 flex items-center justify-center bg-black/50 view-hidden">
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-xl w-11/12 max-w-sm flex flex-col">
+                <h3 class="text-lg font-bold mb-4 text-center">ارسال فایل</h3>
+                <div id="file-preview-container" class="w-full h-48 mb-4 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center"></div>
+                <p id="file-confirm-status" class="text-sm text-center h-4 mb-4"></p>
+                <div class="flex w-full justify-end gap-3 mt-4">
+                    <button type="button" id="cancel-file-upload" class="px-6 py-2 rounded-lg bg-gray-200 dark:bg-gray-600">لغو</button>
+                    <button type="button" id="confirm-file-upload" class="px-6 py-2 rounded-lg bg-blue-600 text-white">ارسال</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Wrapper -->
+        <div id="main-content-wrapper" class="h-full w-full flex flex-col">
+          <main class="flex-grow overflow-y-auto relative">
+            <div id="home-container" class="p-4">
+              <h2 class="text-2xl font-bold mb-4">استوری‌ها</h2>
+              <div id="stories-container" class="flex gap-4 overflow-x-auto pb-4 hide-scrollbar"></div>
+              <div id="chat-list-container"></div>
+            </div>
+
+            <div id="chat-container" class="view-hidden flex flex-col h-full bg-gray-50 dark:bg-gray-900">
+              <div class="fixed top-0 w-full z-10 bg-white dark:bg-gray-800 shadow-sm p-3 flex items-center border-b dark:border-gray-700">
+                <button id="back-to-home-btn" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                </button>
+                <!-- Chat header content will be added by JS -->
+              </div>
+              <div id="messages-container" class="flex-grow pt-20 pb-24 px-4 overflow-y-auto hide-scrollbar">
+                  <div id="loading-spinner" class="text-center py-4 hidden">
+                      <svg class="animate-spin h-6 w-6 text-blue-500 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                  </div>
+                  <ul id="messages-list"></ul>
+              </div>
+              <button id="scroll-to-bottom-btn" class="absolute bottom-24 right-4 z-10 p-2 bg-blue-500 text-white rounded-full shadow-lg opacity-0 transition-opacity view-hidden">↓</button>
+              <div class="fixed bottom-0 w-full p-3 bg-white dark:bg-gray-800 border-t dark:border-gray-700 flex items-center gap-2">
+                <label class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path></svg>
+                  <input type="file" id="file-input" class="hidden">
+                </label>
+                <textarea id="message-input" placeholder="پیام..." rows="1" class="flex-grow p-2 rounded-full bg-gray-100 dark:bg-gray-700 resize-none hide-scrollbar focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                <button id="send-button" class="p-3 bg-blue-600 text-white rounded-full disabled:opacity-50">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+                </button>
+              </div>
+            </div>
+
+            <div id="video-call-container" class="view-hidden h-full flex flex-col bg-gray-900">
+               <div class="flex-grow p-2">
+                 <div id="video-grid-container" class="grid grid-cols-2 md:grid-cols-3 gap-2 h-full"></div>
+               </div>
+               <div id="video-controls-bar" class="flex justify-center items-center gap-4 p-4 bg-black/50">
+                   <button id="toggle-mic-btn" class="p-3 bg-gray-600 rounded-full"></button>
+                   <button id="toggle-camera-btn" class="p-3 bg-gray-600 rounded-full"></button>
+                   <button id="back-to-home-from-video-btn" class="p-3 bg-red-600 text-white rounded-full">خروج</button>
+               </div>
+            </div>
+          </main>
+          
+          <nav id="mainNav" class="w-full h-16 bg-white dark:bg-gray-900 shadow-[0_-2px_10px_rgba(0,0,0,0.1)] border-t dark:border-gray-700 flex justify-around items-center transition-all duration-300">
+            <button id="nav-chats-btn" class="bottom-nav-btn flex-1 flex flex-col items-center justify-center h-full transition-all duration-300 rounded-lg p-2">
+              <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+              <span class="nav-text text-xs hidden">چت‌ها</span>
+            </button>
+            <button id="nav-studio-btn" class="bottom-nav-btn flex-1 flex flex-col items-center justify-center h-full transition-all duration-300 rounded-lg p-2">
+              <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53L15 14M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9A2.25 2.25 0 004.5 18.75z"></path></svg>
+              <span class="nav-text text-xs hidden">استودیو</span>
+            </button>
+            <button id="nav-settings-btn" class="bottom-nav-btn flex-1 flex flex-col items-center justify-center h-full transition-all duration-300 rounded-lg p-2">
+              <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+              <span class="nav-text text-xs hidden">تنظیمات</span>
+            </button>
+          </nav>
         </div>
       </div>
-
-      <div id="tab-bar" class="fixed bottom-0 w-full h-16 bg-white dark:bg-gray-900 shadow-lg border-t dark:border-gray-700 flex justify-around items-center">
-        </div>
-      
     </div>
+    <audio id="send-sound" src="data:audio/mpeg;base64,SUQzBAAAAAABEVRYWFgAAAASAAADbWFmbGFnaTduZG1hc3RlciUyMDIxMTAxOTAwMDAwMFBUTEFZAAAASAAADWMxNjQyOTcwODI4Mzg0VFNTRQAAAA8AAANobGF2ZjU4LjQ1LjEwMFQzMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwP..."></audio>
+    <script type="module" src="./main.js"></script>
   </body>
 </html>
