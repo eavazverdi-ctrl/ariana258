@@ -1,4 +1,4 @@
-const CACHE = "pwa-messenger-v12";
+const CACHE = "pwa-messenger-v13";
 const ASSETS = [
   "./",
   "./index.html",

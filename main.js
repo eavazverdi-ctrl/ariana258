@@ -806,7 +806,7 @@ usernameForm.addEventListener('submit', async (e) => {
                 avatarUrl: compressedAvatar 
             }, { merge: true });
 
-            startApp(); 
+            window.location.reload();
         } catch (error) {
             console.error("Error processing avatar or creating user:", error);
             alert('خطا در پردازش عکس یا ساخت کاربر.');
@@ -959,19 +959,19 @@ const listenForGlobalSettings = () => {
 
 const startApp = async () => {
   const loadingDiv = document.getElementById('loading');
-  if (loadingDiv) {
-      loadingDiv.remove();
-  }
-
   const appAccessGranted = localStorage.getItem(APP_ACCESS_KEY);
 
   if (!appAccessGranted) {
+    if (loadingDiv) loadingDiv.classList.add('view-hidden');
     usernameModal.classList.remove('view-hidden');
-    mainContentWrapper.parentElement.classList.add('view-hidden');
+    mainContentWrapper.classList.add('view-hidden');
+    mainNav.classList.add('view-hidden');
     usernameInput.focus();
     return;
   }
-  mainContentWrapper.parentElement.classList.remove('view-hidden');
+
+  mainContentWrapper.classList.remove('view-hidden');
+  usernameModal.classList.add('view-hidden');
 
   // Load and apply settings
   const storedFontSize = localStorage.getItem(FONT_SIZE_KEY) || 'md';
@@ -1042,6 +1042,10 @@ const startApp = async () => {
   hideAllModals();
   updateSendButtonState();
   showMainView('home');
+  
+  if (loadingDiv) {
+      loadingDiv.remove();
+  }
 };
 
 startApp();
