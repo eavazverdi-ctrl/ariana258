@@ -17,19 +17,27 @@
         width: 100%;
         position: fixed;
       }
-      #messages-container::-webkit-scrollbar, #message-input::-webkit-scrollbar, .hide-scrollbar::-webkit-scrollbar { display: none; }
-      #messages-container, #message-input, .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-      .view-hidden { display: none !important; }
+      #messages-container::-webkit-scrollbar, #message-input::-webkit-scrollbar, .hide-scrollbar::-webkit-scrollbar { display: none;
+      }
+      #messages-container, #message-input, .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none;
+      }
+      .view-hidden { display: none !important;
+      }
       .glass-modal {
         background-color: rgba(255, 255, 255, 0.3);
         backdrop-filter: blur(16px) saturate(180%);
         -webkit-backdrop-filter: blur(16px) saturate(180%);
       }
-      .glass-button-red { background-color: rgba(239, 68, 68, 0.7); }
-      .glass-button-gray { background-color: rgba(255, 255, 255, 0.5); }
-      body.font-size-sm .message-text { font-size: 14px; }
-      body.font-size-md .message-text { font-size: 16px; }
-      body.font-size-lg .message-text { font-size: 18px; }
+      .glass-button-red { background-color: rgba(239, 68, 68, 0.7);
+      }
+      .glass-button-gray { background-color: rgba(255, 255, 255, 0.5);
+      }
+      body.font-size-sm .message-text { font-size: 14px;
+      }
+      body.font-size-md .message-text { font-size: 16px;
+      }
+      body.font-size-lg .message-text { font-size: 18px;
+      }
       
       .persistent-hover-bg {
         position: relative;
@@ -40,364 +48,180 @@
           position: absolute;
           inset: 0;
           border-radius: 0.75rem; /* rounded-xl */
+          background-color: rgb(209 213 219 / 0.3); transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1); z-index: -1;
+      }
+      .persistent-hover-bg:active::after { background-color: rgb(209 213 219 / 0.6); } @media (hover: hover) and (pointer: fine) { .persistent-hover-bg:hover::after { background-color: rgb(209 213 219 / 0.6);
+      }
+      
+      .chat-info-name {
+        /* Add styles for chat info name if needed */
+      }
+      
+      .chat-info-status {
+        /* Add styles for chat info status if needed */
+      }
+      
+      .chat-info-time {
+        /* Add styles for chat info time if needed */
+      }
+      
+      /* New persistent hover effect for chat items/buttons that need it */
+      .persistent-hover-bg-chat::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          border-radius: 0.75rem; /* rounded-xl */
           background-color: rgb(209 213 219 / 0.3);
           transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
           z-index: -1;
       }
-      .persistent-hover-bg:active::after {
+      .persistent-hover-bg-chat:active::after {
           background-color: rgb(209 213 219 / 0.6);
       }
       @media (hover: hover) and (pointer: fine) {
-          .persistent-hover-bg:hover::after {
+          .persistent-hover-bg-chat:hover::after {
               background-color: rgb(209 213 219 / 0.6);
           }
       }
-    </style>
-<script type="importmap">
-{
-  "imports": {
-    "path": "https://aistudiocdn.com/path@^0.12.7",
-    "vite": "https://aistudiocdn.com/vite@^7.1.12",
-    "url": "https://aistudiocdn.com/url@^0.11.4"
-  }
-}
-</script>
-</head>
-  <body class="bg-gray-200 font-sans font-size-md">
-    <!-- Background Container -->
-    <div id="app-background" class="fixed inset-0 -z-10 h-full w-full" style="background: linear-gradient(180deg, #F0F7FF 0%, #FFFFFF 60%);">
-    </div>
-
-    <!-- Main App Container -->
-    <div class="w-full h-full max-w-md mx-auto bg-transparent sm:rounded-3xl overflow-hidden flex flex-col sm:h-[95vh] sm:my-[2.5vh]">
-        
-        <!-- Main Content Wrapper -->
-        <div id="main-content-wrapper" class="w-full flex-1 relative z-0 min-h-0 overflow-hidden">
-                
-                <!-- Home Container -->
-                <div id="home-container" class="w-full h-full flex flex-col bg-transparent">
-                  <header class="px-5 pt-8 pb-3 flex justify-between items-center flex-shrink-0">
-                    <h1 class="text-3xl font-bold text-black" style="font-family: 'Helvetica Neue', sans-serif;">آریانا مسنجر</h1>
-                    <button class="w-11 h-11 bg-white rounded-xl flex items-center justify-center shadow-md">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                      </svg>
-                    </button>
-                  </header>
-
-                  <div class="flex-1 overflow-y-auto hide-scrollbar">
-                    <div class="px-4">
-                      
-                      <div class="rounded-3xl pt-5 pb-28 my-4 text-white shadow-lg relative" style="background: linear-gradient(160deg, #49AAFF 0%, #188BEF 100%);">
-                        <div class="px-5 flex justify-between items-center mb-6">
-                            <h2 class="text-xl font-bold tracking-[0.2em]">ARIANA</h2>
-                            <div class="flex space-x-1.5 rtl:space-x-reverse">
-                                <span class="w-2 h-2 bg-white/80 rounded-full"></span>
-                                <span class="w-2 h-2 bg-white/80 rounded-full"></span>
-                                <span class="w-2 h-2 bg-white/80 rounded-full"></span>
-                            </div>
-                        </div>
-                        <div id="stories-container" class="flex items-start space-x-4 rtl:space-x-reverse overflow-x-auto pb-2 -mx-5 px-5 hide-scrollbar">
-                            <!-- JS will populate this -->
-                        </div>
-                        <div class="absolute bottom-0 left-0 right-0 p-4">
-                            <div class="bg-white rounded-2xl shadow-xl p-2.5 flex items-center h-[72px]">
-                                <div class="pl-2 pr-3 flex-shrink-0">
-                                    <svg class="w-6 h-6 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                                    </svg>
-                                </div>
-                                <input type="text" placeholder="جستجو..." class="w-full bg-transparent focus:outline-none placeholder-gray-400/80 text-gray-900 text-base">
-                                <div class="pl-1 flex-shrink-0">
-                                    <button class="w-[58px] h-[52px] rounded-lg bg-blue-500/12 hover:bg-blue-500/20 flex items-center justify-center">
-                                       <svg class="w-8 h-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 12h9.75m-9.75 6h9.75M3.75 6h1.5m-1.5 6h1.5m-1.5 6h1.5"></path>
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 4.5v3m0 6v3m0 6v3"></path>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                      </div>
-
-                      <div class="flex space-x-2 rtl:space-x-reverse overflow-x-auto pb-4 hide-scrollbar">
-                          <button class="px-4 py-2 text-sm rounded-lg bg-slate-800 text-white font-semibold">All</button>
-                          <button class="px-4 py-2 text-sm rounded-lg bg-gray-200 text-gray-600 font-semibold">Unread Chats</button>
-                          <button class="px-4 py-2 text-sm rounded-lg bg-gray-200 text-gray-600 font-semibold">Favourite</button>
-                          <button class="px-4 py-2 text-sm rounded-lg bg-gray-200 text-gray-600 font-semibold">Group</button>
-                      </div>
-
-                      <div id="chat-list-container">
-                        <!-- Chat items will be injected by JS -->
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Video Call Container -->
-                <div id="video-call-container" class="w-full h-full absolute inset-0 flex flex-col bg-gray-900 view-hidden">
-                   <header class="flex-shrink-0 z-20 p-4 flex items-center justify-between text-white bg-black/20 backdrop-blur-sm">
-                        <button id="back-to-home-from-video-btn" class="p-2 -m-2">
-                           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
-                        </button>
-                        <h2 class="text-lg font-bold">استدیو</h2>
-                        <div class="w-6"></div>
-                    </header>
-                  <div id="video-grid-container" class="flex-1 grid grid-cols-2 grid-rows-4 p-2 gap-2 min-h-0">
-                    <div id="video-slot-1" class="video-slot row-span-2"></div>
-                    <div id="video-slot-2" class="video-slot row-span-2"></div>
-                    <div id="video-slot-3" class="video-slot"></div>
-                    <div id="video-slot-4" class="video-slot"></div>
-                    <div id="video-slot-5" class="video-slot"></div>
-                    <div id="video-slot-6" class="video-slot"></div>
-                  </div>
-                  <div id="video-controls-bar" class="bg-black/20 backdrop-blur-lg h-20 flex-shrink-0 flex justify-center items-center px-4 border-t border-white/20">
-                    <div class="flex justify-center items-center gap-4">
-                        <button id="toggle-mic-btn" class="p-3 rounded-2xl transition-colors bg-white/40 disabled:opacity-50">
-                            <svg class="w-7 h-7 text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor"><use href="#mic-on-svg" /></svg>
-                        </button>
-                        <button id="toggle-camera-btn" class="p-3 rounded-2xl transition-colors bg-white/40 disabled:opacity-50">
-                             <svg class="w-7 h-7 text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor"><use href="#camera-on-svg" /></svg>
-                        </button>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Chat Container -->
-                <div id="chat-container" class="w-full h-full absolute inset-0 flex flex-col bg-sky-100 view-hidden">
-                   <header class="flex-shrink-0 z-20 p-4 flex items-center justify-between bg-white/50 backdrop-blur-lg border-b border-white/50">
-                        <button id="back-to-home-btn" class="p-2 -m-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
-                        </button>
-                        <h2 class="text-lg font-bold">گفتگو</h2>
-                        <div class="w-6"></div>
-                    </header>
-                  <div id="messages-container" class="flex-1 overflow-y-auto p-4 min-h-0">
-                    <div id="loading-spinner" class="text-center py-4 hidden">
-                        <svg class="animate-spin h-6 w-6 text-blue-400 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-                    </div>
-                    <ul id="messages-list" class="flex flex-col"></ul>
-                  </div>
-                  <button id="scroll-to-bottom-btn" class="absolute bottom-24 right-6 bg-gray-500/50 backdrop-blur-lg text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition-opacity duration-300 opacity-0 view-hidden">
-                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
-                  </button>
-                  <div class="flex-shrink-0 h-16 px-2 bg-white/20 backdrop-blur-lg z-10 flex items-center border-t border-white/20">
-                    <div class="flex items-center gap-2 w-full">
-                        <button type="button" id="send-button" class="flex-shrink-0 w-12 h-12 rounded-full transition-opacity disabled:opacity-40 bg-green-500 text-white flex items-center justify-center" disabled>
-                          <svg class="w-7 h-7" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                              <path d="M12 5 L5 15 L19 15 Z" fill="white"/>
-                          </svg>
-                        </button>
-                        <div class="flex-1 relative h-12">
-                            <textarea id="message-input" placeholder="پیام..." class="w-full bg-white/50 backdrop-blur-sm text-gray-800 border border-gray-300/50 rounded-2xl py-2.5 pl-12 pr-4 focus:outline-none resize-none h-full overflow-y-auto" inputmode="text"></textarea>
-                            <label for="file-input" class="absolute top-1/2 -translate-y-1/2 left-2 p-1 rounded-full transition-colors cursor-pointer persistent-hover-bg">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-gray-600" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                   <path d="M15 7l-6.5 6.5a1.5 1.5 0 0 0 3 3l6.5 -6.5a3 3 0 0 0 -6 -6l-6.5 6.5a4.5 4.5 0 0 0 9 9l6.5 -6.5"></path>
-                                </svg>
-                                <input type="file" id="file-input" class="hidden" accept="image/*,video/*,application/*,text/*"/>
-                            </label>
-                        </div>
-                    </div>
-                  </div>
-                </div>
-        </div>
-
-        <nav class="flex-shrink-0 p-3 z-20">
-             <div id="bottom-nav" class="bg-white/60 backdrop-blur-xl rounded-2xl h-20 flex items-center justify-around shadow-lg px-2">
-                <button id="nav-chats-btn" class="bottom-nav-btn h-12 rounded-xl flex items-center justify-center transition-all duration-300 ease-in-out px-4">
-                    <svg class="w-7 h-7 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                    <span class="nav-text font-bold ml-2 hidden whitespace-nowrap">Chats</span>
-                </button>
-                <button id="nav-studio-btn" class="bottom-nav-btn h-12 rounded-xl flex items-center justify-center transition-all duration-300 ease-in-out px-4">
-                     <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
-                    <span class="nav-text font-bold ml-2 hidden whitespace-nowrap">Studio</span>
-                </button>
-                <button id="nav-settings-btn" class="bottom-nav-btn h-12 rounded-xl flex items-center justify-center transition-all duration-300 ease-in-out px-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.24-.438.613-.438.995s.145.755.438.995l1.003.827c.424.35.534.954.26 1.431l-1.296-2.247a1.125 1.125 0 0 1-1.37.49l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.063-.374-.313.686-.645-.87a6.52 6.52 0 0 1-.22-.127c-.324-.196-.72-.257-1.075-.124l-1.217.456a1.125 1.125 0 0 1-1.37-.49l-1.296-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.437-.995s-.145-.755-.437-.995l-1.004-.827a1.125 1.125 0 0 1-.26-1.431l1.296-2.247a1.125 1.125 0 0 1 1.37.49l1.217.456c.355.133.75.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /></svg>
-                    <span class="nav-text font-bold ml-2 hidden whitespace-nowrap">Settings</span>
-                </button>
-            </div>
-        </nav>
-
-    </div>
-    
-    <!-- Username Modal -->
-    <div id="username-modal" class="fixed inset-0 bg-transparent flex justify-center items-start sm:items-center z-50 p-4 view-hidden">
-      <div class="glass-modal p-6 rounded-2xl shadow-xl w-full max-w-sm text-center mt-8 sm:mt-0">
-        <h2 class="text-xl font-bold mb-4 text-gray-800">به پیام رسان آریانا خوش آمدید!</h2>
-        <form id="username-form" class="space-y-4">
-          <div class="flex flex-col items-center">
-              <label for="initial-user-avatar-input" class="cursor-pointer">
-                  <div id="initial-user-avatar-preview" class="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center mb-2 overflow-hidden ring-2 ring-white/50">
-                      <svg class="w-16 h-16 text-gray-400/80" viewBox="0 0 24 24" fill="currentColor"><use href="#placeholder-person-svg"></use></svg>
-                  </div>
-              </label>
-              <input type="file" id="initial-user-avatar-input" class="hidden" accept="image/*" />
-              <span class="text-sm text-gray-600">انتخاب عکس پروفایل</span>
-          </div>
-          <input type="text" id="username-input" class="w-full bg-gray-200/50 rounded-md p-2 text-right focus:outline-none focus:ring-2 focus:ring-green-400 placeholder:text-gray-500 placeholder:text-sm" placeholder="نام کاربری..." required />
-          <input type="password" id="initial-password-input" class="w-full bg-gray-200/50 rounded-md p-2 text-right focus:outline-none focus:ring-2 focus:ring-green-400 placeholder:text-gray-500 placeholder:text-sm" placeholder="رمز برنامه..." required />
-          <button type="submit" class="w-full bg-green-500 text-white font-bold py-2 px-4 rounded-md hover:bg-green-600 transition-colors">ورود</button>
-        </form>
-      </div>
-    </div>
-
-    <!-- General Settings Modal -->
-    <div id="settings-modal" class="fixed inset-0 bg-black/30 flex justify-center items-center z-50 p-4 view-hidden">
-        <div class="glass-modal p-6 rounded-2xl shadow-xl w-full max-w-sm overflow-y-auto max-h-[90vh]">
-          <form id="user-settings-form" class="space-y-2">
-            <div class="flex flex-col items-center">
-                <label for="user-avatar-input" class="cursor-pointer">
-                    <div id="user-avatar-preview" class="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center mb-2 overflow-hidden ring-2 ring-white/50">
-                        <!-- Avatar will be rendered here -->
-                    </div>
-                </label>
-                <input type="file" id="user-avatar-input" class="hidden" accept="image/*" />
-                <span class="text-sm text-gray-600">تغییر عکس پروفایل</span>
-            </div>
-
-            <div class="flex items-center">
-              <label for="change-username-input" class="w-1/2 text-sm font-medium text-gray-700">نام کاربری</label>
-              <div class="w-1/2">
-                <input type="text" id="change-username-input" class="w-full bg-white/50 rounded-md p-2 text-right focus:outline-none focus:ring-2 focus:ring-green-400 placeholder:text-gray-500 placeholder:text-sm" />
-              </div>
-            </div>
-
-            <div class="flex items-center">
-              <label class="w-1/2 text-sm font-medium text-gray-700">اندازه فونت پیام‌ها</label>
-              <div class="w-1/2 flex gap-1" id="font-size-options">
-                <button type="button" data-size="sm" class="font-size-btn p-2 rounded-md bg-white/50 text-gray-800 text-xs flex-1 text-center transition-colors hover:bg-white/80">کوچک</button>
-                <button type="button" data-size="md" class="font-size-btn p-2 rounded-md bg-white/50 text-gray-800 text-xs flex-1 text-center transition-colors hover:bg-white/80">معمولی</button>
-                <button type="button" data-size="lg" class="font-size-btn p-2 rounded-md bg-white/50 text-gray-800 text-xs flex-1 text-center transition-colors hover:bg-white/80">بزرگ</button>
-              </div>
-            </div>
-            
-            <div class="flex items-center">
-              <label class="w-1/2 text-sm font-medium text-gray-700">حالت شیشه‌ای</label>
-              <div class="w-1/2 flex gap-1" id="glass-mode-options">
-                <button type="button" data-glass="off" class="glass-mode-btn p-2 rounded-md bg-white/50 text-gray-800 text-xs flex-1 text-center transition-colors hover:bg-white/80">خاموش</button>
-                <button type="button" data-glass="low" class="glass-mode-btn p-2 rounded-md bg-white/50 text-gray-800 text-xs flex-1 text-center transition-colors hover:bg-white/80">کم</button>
-                <button type="button" data-glass="high" class="glass-mode-btn p-2 rounded-md bg-white/50 text-gray-800 text-xs flex-1 text-center transition-colors hover:bg-white/80">زیاد</button>
-              </div>
-            </div>
-
-            <div class="flex items-center">
-              <label class="w-1/2 text-sm font-medium text-gray-700">ارسال پیام با اینتر</label>
-              <div class="w-1/2 flex gap-1" id="send-with-enter-options">
-                <button type="button" data-value="on" class="send-with-enter-btn p-2 rounded-md bg-white/50 text-gray-800 text-xs flex-1 text-center transition-colors hover:bg-white/80">فعال</button>
-                <button type="button" data-value="off" class="send-with-enter-btn p-2 rounded-md bg-white/50 text-gray-800 text-xs flex-1 text-center transition-colors hover:bg-white/80">غیرفعال</button>
-              </div>
-            </div>
-            
-            <div>
-                <div class="flex items-center">
-                   <label class="w-1/2 text-sm font-medium text-gray-700">پس‌زمینه برنامه</label>
-                   <div id="static-background-uploader" class="w-1/2">
-                       <label for="background-image-input" class="cursor-pointer block w-full text-center bg-white/50 text-gray-800 font-bold py-2 px-4 rounded-md text-xs transition-colors hover:bg-white/80">انتخاب عکس</label>
-                       <input type="file" id="background-image-input" class="hidden" accept="image/*" />
-                   </div>
-                </div>
-                 <p id="background-upload-status" class="text-sm text-center h-4"></p>
-            </div>
-            
-            <div class="flex items-center">
-              <label class="w-1/2 text-sm font-medium text-gray-700">حذف تمام مکالمات</label>
-              <div class="w-1/2">
-                <button id="delete-all-messages-btn" type="button" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md text-xs transition-colors">حذف</button>
-              </div>
-            </div>
-
-            <div class="flex items-center">
-              <label class="w-1/2 text-sm font-medium text-gray-700">پاکسازی استدیو</label>
-              <div class="w-1/2">
-                <button id="clear-studio-cache-btn" type="button" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md text-xs transition-colors">پاکسازی</button>
-              </div>
-            </div>
-
-            <div class="flex items-center">
-              <label class="w-1/2 text-sm font-medium text-gray-700">آپدیت نرم افزار</label>
-              <div class="w-1/2">
-                <button id="update-app-btn" type="button" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md text-xs transition-colors">بررسی آپدیت</button>
-              </div>
-            </div>
-            <p id="update-status-text" class="text-sm text-center h-4"></p>
-
-            <div class="flex justify-center pt-4 space-x-3 rtl:space-x-reverse border-t border-white/30 mt-4">
-               <button id="settings-cancel-btn" type="button" class="w-full glass-button-gray text-gray-800 font-bold py-2 px-4 rounded-md">انصراف</button>
-               <button id="settings-ok-btn" type="submit" class="w-full bg-green-500 text-white font-bold py-2 px-4 rounded-md hover:bg-green-600 transition-colors">تایید</button>
-            </div>
-          </form>
-
-        </div>
-    </div>
-
-    <!-- View Avatar Modal -->
-    <div id="view-avatar-modal" class="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-4 view-hidden" role="dialog" aria-modal="true">
-      <div class="glass-modal p-4 rounded-2xl shadow-xl w-full max-w-sm text-center relative">
-        <h3 id="view-avatar-name" class="text-xl font-bold mb-4 text-gray-800"></h3>
-        <div id="view-avatar-display" class="w-72 h-72 mx-auto rounded-3xl bg-gray-200 flex items-center justify-center mb-4 overflow-hidden ring-4 ring-white/50">
-            <!-- Large avatar will be rendered here -->
-        </div>
-        <button id="close-view-avatar-modal" class="w-full glass-button-gray text-gray-800 font-bold py-2 px-4 rounded-md mt-2">بستن</button>
-      </div>
-    </div>
-
-    <!-- Change User Avatar In-Chat Modal -->
-    <div id="change-user-avatar-in-chat-modal" class="fixed inset-0 bg-black/30 flex justify-center items-center z-50 p-4 view-hidden">
-        <div class="glass-modal p-6 rounded-2xl shadow-xl w-full max-w-sm">
-          <h2 class="text-xl font-bold mb-4 text-center text-gray-800">تغییر عکس پروفایل</h2>
-          <form id="change-user-avatar-in-chat-form">
-            <div class="flex flex-col items-center space-y-4">
-               <label for="user-avatar-in-chat-input" class="cursor-pointer">
-                   <div id="user-avatar-in-chat-preview" class="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden ring-2 ring-white/50">
-                       <!-- User avatar preview -->
-                   </div>
-                   <span class="text-sm text-gray-600 mt-2 block text-center">انتخاب عکس جدید</span>
-               </label>
-               <input type="file" id="user-avatar-in-chat-input" class="hidden" accept="image/*" />
-            </div>
-            <p id="change-user-avatar-in-chat-status" class="text-sm mt-2 text-center h-4"></p>
-            <div class="mt-4 flex justify-center space-x-3 rtl:space-x-reverse">
-              <button type="button" class="cancel-btn glass-button-gray text-gray-800 font-bold py-2 px-4 rounded-md">انصراف</button>
-              <button type="submit" class="bg-green-500 text-white font-bold py-2 px-4 rounded-md hover:bg-green-600">ذخیره</button>
-            </div>
-          </form>
-        </div>
-    </div>
-    
-    <!-- File Upload Confirmation Modal -->
-    <div id="file-confirm-modal" class="fixed inset-0 bg-black/30 flex justify-center items-center z-50 p-4 view-hidden">
-      <div class="glass-modal p-6 rounded-2xl shadow-xl w-full max-w-sm">
-        <h2 class="text-xl font-bold mb-4 text-center text-gray-800">ارسال فایل</h2>
-        <div id="file-preview-container" class="w-full h-48 bg-gray-200/50 rounded-lg flex items-center justify-center mb-4 overflow-hidden p-2">
-          <!-- File preview will be injected here -->
-        </div>
-        <p id="file-confirm-status" class="text-sm text-center h-4 mb-4">برای ارسال تایید کنید.</p>
-        <div class="mt-4 flex justify-end space-x-3 rtl:space-x-reverse">
-          <button type="button" id="cancel-file-upload" class="glass-button-gray text-gray-800 font-bold py-2 px-4 rounded-md">انصراف</button>
-          <button type="button" id="confirm-file-upload" class="bg-green-500 text-white font-bold py-2 px-4 rounded-md hover:bg-green-600">تایید</button>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Video Call Icon Templates -->
-    <div class="hidden">
-      <svg id="mic-on-svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path></svg>
-      <svg id="camera-on-svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9A2.25 2.25 0 004.5 18.75z"></path></svg>
-      <svg id="placeholder-person-svg" class="w-16 h-16 text-gray-400/80" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"></path></svg>
-    </div>
-
-    <audio id="send-sound" src="data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YUFOSE9PZw==" preload="auto"></audio>
-
-    <script type="module" src="./main.js"></script>
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('./sw.js')
-            .then(registration => console.log('Service Worker registered:', registration))
-            .catch(error => console.log('Service Worker registration failed:', error));
-        });
+      
+      /* Specific styles for message bubbles if they exist */
+      .message-bubble-self {
+        /* Styles for messages sent by the user */
       }
-    </script>
-</body>
+      
+      .message-bubble-other {
+        /* Styles for messages received from others */
+      }
+      
+      /* Modal transition styles */
+      .modal-enter-active, .modal-leave-active {
+        transition: opacity 0.3s ease;
+      }
+      .modal-enter-from, .modal-leave-to {
+        opacity: 0;
+      }
+      
+      /* Tab bar styles */
+      #tab-bar {
+          -webkit-tap-highlight-color: transparent;
+      }
+      
+      .view-container {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        transition: transform 0.3s ease-out; /* Add transition for sliding */
+      }
+      
+    </style>
+  </head>
+  <body>
+    <svg width="637" height="414" viewBox="0 0 637 414" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<foreignObject x="32.6501" y="-32.6527" width="571.424" height="155.101"><div xmlns="http://www.w3.org/1999/xhtml" style="backdrop-filter:blur(16.33px);clip-path:url(#bgblur_0_50_1385_clip_path);height:100%;width:100%"></div></foreignObject><rect data-figma-bg-blur-radius="32.6528" x="65.3029" y="3.05176e-05" width="506.118" height="89.7951" rx="32.6528" fill="#16A1FB" fill-opacity="0.16"/>
+<rect x="32.6512" y="16.3273" width="571.423" height="333.058" rx="26.1222" fill="url(#paint0_linear_50_1385)"/>
+<path d="M64.8771 45.8632H67.9171L74.2027 62.183H71.1399L69.6085 57.8631H63.0943L61.5628 62.183H58.6143L64.8771 45.8632ZM63.8714 55.6917H68.8542L66.4085 48.6746H66.3399L63.8714 55.6917ZM75.4597 45.8632H78.0654V62.183H75.4597V45.8632ZM80.973 45.8632H83.5787V62.183H80.973V45.8632ZM95.0193 56.7431C95.0193 57.3678 95.126 57.9012 95.3393 58.3431C95.5527 58.785 95.8498 59.1507 96.2307 59.4402C96.6117 59.7145 97.046 59.9202 97.5336 60.0573C98.0364 60.1793 98.5774 60.2402 99.1564 60.2402C99.7812 60.2402 100.315 60.1716 100.756 60.0345C101.198 59.8821 101.556 59.6916 101.831 59.4631C102.105 59.2345 102.303 58.9755 102.425 58.6859C102.547 58.3812 102.608 58.0764 102.608 57.7717C102.608 57.1469 102.463 56.6898 102.174 56.4002C101.899 56.0955 101.595 55.8821 101.259 55.7602C100.68 55.5469 100.002 55.3488 99.225 55.166C98.4631 54.9679 97.5184 54.7164 96.3907 54.4117C95.6898 54.2288 95.1031 53.9926 94.6308 53.7031C94.1736 53.3984 93.8079 53.0631 93.5336 52.6974C93.2593 52.3317 93.0612 51.9431 92.9393 51.5317C92.8327 51.1203 92.7793 50.7012 92.7793 50.2746C92.7793 49.4517 92.947 48.7432 93.2822 48.1489C93.6327 47.5394 94.0898 47.0365 94.6536 46.6403C95.2174 46.2441 95.8574 45.9546 96.5736 45.7718C97.2898 45.5737 98.0136 45.4746 98.745 45.4746C99.5983 45.4746 100.398 45.5889 101.145 45.8175C101.907 46.0308 102.57 46.3584 103.134 46.8003C103.713 47.2422 104.17 47.7908 104.505 48.446C104.84 49.086 105.008 49.8327 105.008 50.686H102.151C102.074 49.6346 101.716 48.8955 101.076 48.4689C100.436 48.027 99.6212 47.806 98.6307 47.806C98.2955 47.806 97.9526 47.8441 97.6022 47.9203C97.2517 47.9813 96.9317 48.0956 96.6422 48.2632C96.3526 48.4155 96.1088 48.6289 95.9107 48.9032C95.7279 49.1774 95.6365 49.5203 95.6365 49.9317C95.6365 50.5108 95.8117 50.9679 96.1622 51.3031C96.5279 51.6231 97.0003 51.8669 97.5793 52.0346C97.6403 52.0498 97.8764 52.1184 98.2879 52.2403C98.7145 52.3469 99.1869 52.4688 99.705 52.606C100.223 52.7431 100.726 52.8803 101.214 53.0174C101.716 53.1393 102.074 53.2307 102.288 53.2917C102.821 53.4593 103.286 53.6879 103.682 53.9774C104.078 54.2669 104.406 54.6022 104.665 54.9831C104.939 55.3488 105.137 55.745 105.259 56.1717C105.396 56.5983 105.465 57.025 105.465 57.4517C105.465 58.3659 105.274 59.1507 104.894 59.8059C104.528 60.4459 104.04 60.9716 103.431 61.3831C102.821 61.7945 102.128 62.0916 101.351 62.2745C100.574 62.4726 99.7812 62.5716 98.9736 62.5716C98.0441 62.5716 97.1679 62.4573 96.345 62.2288C95.5222 62.0002 94.806 61.6497 94.1965 61.1773C93.587 60.705 93.0993 60.1031 92.7336 59.3716C92.3679 58.625 92.1774 57.7488 92.1622 56.7431H95.0193ZM106.412 50.366H108.378V46.8232H110.983V50.366H113.338V52.3088H110.983V58.6174C110.983 58.8916 110.991 59.1278 111.006 59.3259C111.037 59.524 111.09 59.6916 111.166 59.8288C111.258 59.9659 111.387 60.0726 111.555 60.1488C111.723 60.2097 111.951 60.2402 112.241 60.2402C112.423 60.2402 112.606 60.2402 112.789 60.2402C112.972 60.225 113.155 60.1945 113.338 60.1488V62.1602C113.048 62.1907 112.766 62.2211 112.492 62.2516C112.218 62.2821 111.936 62.2973 111.646 62.2973C110.961 62.2973 110.404 62.2364 109.978 62.1145C109.566 61.9773 109.239 61.7869 108.995 61.5431C108.766 61.284 108.606 60.964 108.515 60.5831C108.439 60.2021 108.393 59.7678 108.378 59.2802V52.3088H106.412V50.366ZM120.629 62.503C119.685 62.503 118.839 62.3507 118.092 62.0459C117.361 61.7259 116.736 61.2916 116.218 60.7431C115.715 60.1945 115.326 59.5393 115.052 58.7774C114.793 58.0155 114.664 57.1774 114.664 56.2631C114.664 55.3641 114.793 54.5336 115.052 53.7717C115.326 53.0098 115.715 52.3546 116.218 51.806C116.736 51.2574 117.361 50.8308 118.092 50.526C118.839 50.8308 119.685 50.046 120.629 50.046C121.574 50.046 122.412 50.206 123.144 50.526C123.89 50.8308 124.515 51.2574 125.018 51.806C125.536 52.3546 125.924 53.0098 126.184 53.7717C126.458 54.5336 126.595 55.3641 126.595 56.2631C126.595 57.1774 126.458 58.0155 126.184 58.7774C125.924 59.5393 125.536 60.1945 125.018 60.7431C124.515 61.2916 123.89 61.7259 123.144 62.0459C122.412 62.3507 121.574 62.503 120.629 62.503ZM120.629 60.4459C121.208 60.4459 121.711 60.324 122.138 60.0802C122.564 59.8364 122.915 59.5164 123.189 59.1202C123.464 58.724 123.662 58.2821 123.784 57.7945C123.921 57.2917 123.989 56.7812 123.989 56.2631C123.989 55.7602 123.921 55.2574 123.784 54.7545C123.662 54.2517 123.464 53.8098 123.189 53.4288C122.915 53.0327 122.564 52.7127 122.138 52.4688C121.711 52.225 121.208 52.1031 120.629 52.1031C120.05 52.1031 119.547 52.225 119.121 52.4688C118.694 52.7127 118.344 53.0327 118.069 53.4288C117.795 53.8098 117.589 54.2517 117.452 54.7545C117.33 55.2574 117.269 55.7602 117.269 56.2631C117.269 56.7812 117.33 57.2917 117.452 57.7945C117.589 58.2821 117.795 58.724 118.069 59.1202C118.344 59.5164 118.694 59.8364 119.121 60.0802C119.547 60.324 120.05 60.4459 120.629 60.4459ZM128.761 50.366H131.207V52.6517H131.253C131.329 52.3317 131.474 52.0193 131.687 51.7146C131.915 51.4098 132.182 51.1355 132.487 50.8917C132.807 50.6327 133.157 50.427 133.538 50.2746C133.919 50.1222 134.308 50.046 134.704 50.046C135.009 50.046 135.214 50.0536 135.321 50.0689C135.443 50.0841 135.565 50.0993 135.687 50.1146V52.6288C135.504 52.5984 135.313 52.5755 135.115 52.5603C134.933 52.5298 134.75 52.5146 134.567 52.5146C134.125 52.5146 133.706 52.606 133.31 52.7888C132.929 52.9565 132.594 53.2155 132.304 53.566C132.014 53.9012 131.786 54.3203 131.618 54.8231C131.451 55.326 131.367 55.905 131.367 56.5602V62.183H128.761V50.366ZM135.494 50.366H138.351L141.437 59.1888H141.482L144.477 50.366H147.197L142.602 62.823C142.389 63.3564 142.176 63.8668 141.962 64.3545C141.764 64.8421 141.513 65.2687 141.208 65.6344C140.919 66.0154 140.553 66.3125 140.111 66.5259C139.669 66.7544 139.105 66.8687 138.42 66.8687C137.81 66.8687 137.208 66.823 136.614 66.7316V64.5373C136.827 64.5678 137.033 64.5983 137.231 64.6287C137.429 64.6745 137.635 64.6973 137.848 64.6973C138.153 64.6973 138.404 64.6592 138.603 64.583C138.801 64.5068 138.961 64.3925 139.083 64.2402C139.22 64.103 139.334 63.9354 139.425 63.7373C139.517 63.5392 139.601 63.3107 139.677 63.0516L139.974 62.1373L135.494 50.366Z" fill="white"/>
+<path d="M569.789 52.2449C569.789 51.3433 569.058 50.6123 568.156 50.6123C567.254 50.6123 566.523 51.3433 566.523 52.2449C566.523 53.1466 567.254 53.8776 568.156 53.8776C569.058 53.8776 569.789 53.1466 569.789 52.2449Z" fill="white" stroke="white" stroke-width="2.44896" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M558.362 52.2449C558.362 51.3433 557.631 50.6123 556.73 50.6123C555.828 50.6123 555.097 51.3433 555.097 52.2449C555.097 53.1466 555.828 53.8776 556.73 53.8776C557.631 53.8776 558.362 53.1466 558.362 52.2449Z" fill="white" stroke="white" stroke-width="2.44896" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M581.218 52.2449C581.218 51.3433 580.487 50.6123 579.585 50.6123C578.684 50.6123 577.953 51.3433 577.953 52.2449C577.953 53.1466 578.684 53.8776 579.585 53.8776C580.487 53.8776 581.218 53.1466 581.218 52.2449Z" fill="white" stroke="white" stroke-width="2.44896" stroke-linecap="round" stroke-linejoin="round"/>
+<g filter="url(#filter1_d_50_1385)">
+<rect x="58.7748" y="248.16" width="519.179" height="75.1014" rx="19.5917" fill="white"/>
+</g>
+<rect x="511.015" y="256.326" width="58.775" height="58.775" rx="11.4285" fill="#188BEF" fill-opacity="0.12"/>
+<path d="M533.872 287.35V276.738M533.872 287.35C534.305 287.35 534.72 287.522 535.026 287.828C535.332 288.134 535.504 288.55 535.504 288.983C535.504 289.416 535.332 289.831 535.026 290.137C534.72 290.443 534.305 290.615 533.872 290.615M533.872 287.35C533.439 287.35 533.024 287.522 532.717 287.828C532.411 288.134 532.239 288.55 532.239 288.983C532.239 289.416 532.411 289.831 532.717 290.137C533.024 290.443 533.439 290.615 533.872 290.615M533.872 290.615V294.697M546.933 287.35V276.738M546.933 287.35C547.366 287.35 547.781 287.522 548.087 287.828C548.394 288.134 548.566 288.55 548.566 288.983C548.566 289.416 548.394 289.831 548.087 290.137C547.781 290.443 547.366 290.615 546.933 290.615M546.933 287.35C546.5 287.35 546.085 287.522 545.778 287.828C545.472 288.134 545.3 288.55 545.3 288.983C545.3 289.416 545.472 289.831 545.778 290.137C546.085 290.443 546.5 290.615 546.933 290.615M546.933 290.615V294.697M540.402 280.819V276.738M540.402 280.819C540.835 280.819 541.251 280.991 541.557 281.298C541.863 281.604 542.035 282.019 542.035 282.452C542.035 282.885 541.863 283.3 541.557 283.606C541.251 283.913 540.835 284.085 540.402 284.085M540.402 280.819C539.969 280.819 539.554 280.991 539.248 281.298C538.942 281.604 538.77 282.019 538.77 282.452C538.77 282.885 538.942 283.3 539.248 283.606C539.554 283.913 539.969 284.085 540.402 284.085M540.402 284.085V294.697" stroke="#16A1FB" stroke-width="2.12243" stroke-linecap="round" stroke-linejoin="round"/>
+<g opacity="0.7">
+<path d="M94.8306 297.685C101.443 297.685 106.803 292.325 106.803 285.713C106.803 279.1 101.443 273.74 94.8306 273.74C88.2183 273.74 82.8579 279.1 82.8579 285.713C82.8579 292.325 88.2183 297.685 94.8306 297.685Z" stroke="#111D25" stroke-width="2.44896" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M108.301 299.18L103.811 294.69" stroke="#111D25" stroke-width="2.44896" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<path opacity="0.4" d="M135.331 285.677C135.227 284.671 134.861 283.946 134.234 283.502C133.62 283.045 132.83 282.817 131.863 282.817C131.471 282.817 131.086 282.856 130.707 282.934C130.329 283.013 129.989 283.143 129.689 283.326C129.401 283.509 129.166 283.757 128.983 284.07C128.813 284.371 128.729 284.75 128.729 285.207C128.729 285.638 128.853 285.99 129.101 286.265C129.362 286.526 129.702 286.741 130.12 286.911C130.551 287.081 131.034 287.225 131.569 287.342C132.105 287.447 132.647 287.564 133.196 287.695C133.757 287.826 134.306 287.982 134.841 288.165C135.377 288.335 135.853 288.57 136.271 288.87C136.702 289.171 137.042 289.55 137.29 290.007C137.551 290.464 137.682 291.039 137.682 291.731C137.682 292.475 137.512 293.189 137.172 293.872C136.845 294.527 136.388 295.075 135.809 295.517C135.245 295.959 134.581 296.287 133.817 296.491C133.053 296.706 132.228 296.813 131.339 296.813C130.563 296.813 129.821 296.721 129.113 296.538C128.405 296.355 127.778 296.068 127.234 295.672C126.703 295.276 126.273 294.749 125.946 294.094C125.619 293.439 125.456 292.68 125.456 291.819H128.328C128.389 292.511 128.69 293.023 129.231 293.35C129.772 293.678 130.417 293.841 131.166 293.841C131.545 293.841 131.917 293.794 132.282 293.7C132.647 293.593 132.968 293.449 133.243 293.266C133.518 293.083 133.746 292.855 133.929 292.58C134.112 292.292 134.204 291.952 134.204 291.569C134.204 291.086 134.072 290.672 133.803 290.322C133.535 289.972 133.184 289.703 132.753 289.511C132.404 289.341 132.064 289.249 131.737 289.234C131.424 289.219 131.112 289.167 130.799 289.076C130.487 289.004 130.174 288.913 129.862 288.806C129.549 288.699 129.237 288.582 128.925 288.451C128.612 288.307 128.312 288.163 128.024 287.989C127.736 287.82 127.464 287.628 127.203 287.413C126.942 287.198 126.703 286.95 126.488 286.675C126.273 286.414 126.09 286.113 125.946 285.773C125.802 285.415 125.73 285.036 125.73 284.639V282.856H128.536V284.146C128.536 284.58 128.567 284.977 128.628 285.335C128.689 285.693 128.82 286.006 129.029 286.278C129.237 286.55 129.512 286.759 129.852 286.883C130.192 287.007 130.584 287.069 131.025 287.069C131.253 287.069 131.492 287.054 131.743 287.023C132.004 287.004 132.282 286.958 132.57 286.883C132.858 286.791 133.15 286.685 133.44 286.561C133.73 286.43 134.02 286.26 134.31 286.051C134.6 285.842 134.869 285.614 135.078 285.365C135.293 285.116 135.456 284.844 135.564 284.543C135.688 284.225 135.75 283.899 135.75 283.56C135.75 283.031 135.597 282.607 135.296 282.28C135.008 281.93 134.618 281.655 134.12 281.454C133.621 281.252 133.057 281.151 132.427 281.151C132.004 281.151 131.586 281.213 131.174 281.337C130.762 281.468 130.404 281.649 130.103 281.877C129.802 282.092 129.563 282.343 129.38 282.639C129.21 282.939 129.125 283.266 129.125 283.624V283.639C129.125 284.053 129.267 284.411 129.555 284.712C129.843 285.013 130.222 285.241 130.692 285.399C131.162 285.556 131.674 285.635 132.228 285.635C132.568 285.635 132.908 285.619 133.243 285.592C133.578 285.561 133.896 285.515 134.197 285.454C134.515 285.399 134.827 285.337 135.139 285.265C135.451 285.193 135.741 285.114 136.012 285.015C136.294 284.908 136.56 284.777 136.814 284.62C137.067 284.457 137.29 284.28 137.473 284.088C137.671 283.896 137.828 283.674 137.942 283.425C138.057 283.176 138.118 282.898 138.125 282.597C138.125 281.889 137.955 281.259 137.615 280.704C137.288 280.168 136.839 279.73 136.26 279.39C135.698 279.05 135.043 278.835 134.298 278.743C133.56 278.652 132.783 278.605 131.966 278.605C131.328 278.605 130.697 278.644 130.076 278.723C129.455 278.809 128.875 278.933 128.339 279.091C127.811 279.248 127.329 279.439 126.891 279.667C126.453 279.895 126.069 280.163 125.73 280.464C125.39 280.764 125.122 281.104 124.923 281.483C124.725 281.869 124.626 282.292 124.626 282.757C124.626 283.256 124.705 283.713 124.868 284.127C125.041 284.524 125.299 284.864 125.64 285.146C125.996 285.428 126.375 285.643 126.772 285.793C127.168 285.942 127.589 286.034 128.034 286.069V284.146" fill="white"/>
+<defs>
+<linearGradient id="paint0_linear_50_1385" x1="16.3273" y1="183.356" x2="624.49" y2="183.356" gradientUnits="userSpaceOnUse">
+<stop stop-color="#16A1FB"/>
+<stop offset="1" stop-color="#16A1FB" stop-opacity="0.31"/>
+</linearGradient>
+<filter id="filter1_d_50_1385" x="50.7748" y="244.16" width="535.179" height="91.1014" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="4"/>
+<feGaussianBlur stdDeviation="4"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0.176471 0 0 0 0 0.203922 0 0 0 0 0.231373 0 0 0 0.1 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_50_1385"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_50_1385" result="shape"/>
+</filter>
+<clipPath id="bgblur_0_50_1385_clip_path">
+<rect x="32.6501" y="-32.6527" width="571.424" height="155.101"/>
+</clipPath>
+</defs>
+</svg>
+    <div id="app" class="h-full w-full">
+      <div id="loading" class="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-800 z-50">
+        <svg class="animate-spin h-8 w-8 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+      </div>
+      
+      <div id="main-view" class="view-container">
+        </div>
+
+      <div id="chat-view" class="view-container view-hidden transform translate-x-full bg-white dark:bg-gray-900 transition-transform duration-300">
+        <div id="chat-header" class="fixed top-0 w-full z-10 bg-white dark:bg-gray-900 shadow-md p-4 flex items-center justify-between border-b dark:border-gray-700">
+          <div class="flex items-center">
+            <button id="back-to-main" class="p-2 -mr-2 persistent-hover-bg rounded-xl">
+              <svg class="w-6 h-6 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+              </svg>
+            </button>
+            <div class="mr-4">
+              <div id="chat-title" class="text-lg font-bold dark:text-white"></div>
+              <div id="chat-status" class="text-sm text-gray-500 dark:text-gray-400">آنلاین</div>
+            </div>
+          </div>
+          <div class="flex items-center space-x-2">
+            <button id="call-button" class="p-2 persistent-hover-bg rounded-xl">
+              <svg class="w-6 h-6 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+              </svg>
+            </button>
+            <button id="video-call-button" class="p-2 persistent-hover-bg rounded-xl">
+              <svg class="w-6 h-6 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9A2.25 2.25 0 004.5 18.75z"></path>
+              </svg>
+            </button>
+            <button id="more-options-button" class="p-2 persistent-hover-bg rounded-xl">
+              <svg class="w-6 h-6 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+        
+        <div id="messages-container" class="pt-20 pb-20 h-full overflow-y-auto hide-scrollbar flex flex-col-reverse">
+          </div>
+
+        <div id="chat-input-container" class="fixed bottom-0 w-full p-4 bg-white dark:bg-gray-900 border-t dark:border-gray-700 flex items-center space-x-2">
+          <input type="text" id="message-input" class="flex-grow p-3 rounded-full bg-gray-100 dark:bg-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="پیام خود را بنویسید..." dir="rtl">
+          <button id="mic-button" class="p-2 persistent-hover-bg rounded-full text-blue-600 dark:text-blue-400">
+            <svg id="mic-off-svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path>
+            </svg>
+            <svg id="mic-on-svg" class="w-7 h-7 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9A2.25 2.25 0 004.5 18.75z"></path>
+            </svg>
+          </button>
+          <button id="send-button" class="p-2 persistent-hover-bg rounded-full text-blue-600 dark:text-blue-400 hidden">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div id="tab-bar" class="fixed bottom-0 w-full h-16 bg-white dark:bg-gray-900 shadow-lg border-t dark:border-gray-700 flex justify-around items-center">
+        </div>
+      
+    </div>
+  </body>
 </html>
