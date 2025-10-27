@@ -53,6 +53,19 @@
       .persistent-hover-bg:active::after { background-color: rgb(209 213 219 / 0.6); } @media (hover: hover) and (pointer: fine) { .persistent-hover-bg:hover::after { background-color: rgb(209 213 219 / 0.6);
       }
       }
+    
+      /* Stories ring style to match SVG feel */
+      .story-avatar {
+        position: relative;
+        border-radius: 9999px;
+        padding: 2px;
+        background: conic-gradient(from 200deg, rgba(22,161,251,0.9), rgba(22,161,251,0.2), rgba(22,161,251,0.9));
+      }
+      .story-avatar > img, .story-avatar > canvas, .story-avatar > div {
+        border-radius: 9999px;
+        display: block;
+      }
+
     </style>
     <script type="importmap">
     {
@@ -188,10 +201,43 @@
         <div id="main-content-wrapper" class="h-full w-full flex flex-col">
           <main class="flex-grow overflow-y-auto relative">
             <div id="home-container" class="p-4">
-              <h2 class="text-2xl font-bold mb-4">استوری‌ها</h2>
-              <div id="stories-container" class="flex gap-4 overflow-x-auto pb-4 hide-scrollbar"></div>
-              <div id="chat-list-container"></div>
-            </div>
+  <div id="stories-surface" class="relative rounded-3xl p-4 pt-8 bg-gradient-to-br from-[#16A1FB]/20 to-[#16A1FB]/5">
+    <!-- top translucent ribbon (from SVG) -->
+    <div class="absolute -top-3 left-6 right-6 h-10 rounded-3xl bg-[#16A1FB]/20 backdrop-blur-xl"></div>
+
+    <!-- decorative search row (non-functional per request) -->
+    <div class="flex items-center gap-3 mb-4">
+      <div class="flex-1">
+        <div class="h-12 rounded-2xl bg-white shadow-md flex items-center px-4">
+          <!-- search icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 100-15 7.5 7.5 0 000 15z"/>
+          </svg>
+          <span class="mr-2 text-gray-500 select-none">جستجو</span>
+        </div>
+      </div>
+      <!-- equalizer button (decorative) -->
+      <div class="w-12 h-12 rounded-2xl bg-[#188BEF]/10 flex items-center justify-center border border-[#188BEF]/10">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" class="w-7 h-7">
+          <g stroke="#16A1FB" stroke-width="1.8" stroke-linecap="round">
+            <path d="M7 20v-8"/>
+            <circle cx="7" cy="12" r="1.8" fill="none"/>
+            <path d="M14 24v-12"/>
+            <circle cx="14" cy="12" r="1.8" fill="none"/>
+            <path d="M21 20v-8"/>
+            <circle cx="21" cy="12" r="1.8" fill="none"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+
+    <!-- stories strip -->
+    <div id="stories-container" class="flex gap-4 overflow-x-auto pb-2 hide-scrollbar"></div>
+  </div>
+
+  <!-- keep chat list as-is -->
+  <div id="chat-list-container"></div>
+</div>
 
             <div id="chat-container" class="view-hidden flex flex-col h-full bg-gray-50 dark:bg-gray-900">
               <div class="fixed top-0 w-full z-10 bg-white dark:bg-gray-800 shadow-sm p-3 flex items-center border-b dark:border-gray-700">
