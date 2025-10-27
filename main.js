@@ -381,25 +381,6 @@ updateAppBtn.addEventListener('click', async () => {
     // ... (rest of the function is unchanged)
 });
 
-navSettingsBtn.addEventListener('click', () => {
-    initialSettingsState = {
-        staticBg: currentStaticBackground
-    };
-    
-    changeUsernameInput.value = currentUsername;
-    userAvatarPreview.innerHTML = generateAvatar(currentUsername, currentUserAvatar);
-    applyFontSize(currentFontSize);
-    applyGlassModeSelection(currentGlassMode);
-    applySendWithEnterSelection(currentSendWithEnter);
-    
-    tempStaticBackground = null;
-    backgroundImageInput.value = '';
-    backgroundUploadStatus.textContent = '';
-    updateStatusText.textContent = '';
-
-    showModal('settings-modal');
-});
-
 settingsCancelBtn.addEventListener('click', () => {
     applyBackgroundSettings(initialSettingsState.staticBg);
     hideAllModals();
@@ -807,6 +788,24 @@ const startApp = async () => {
   // Setup nav listeners
   navChatsBtn.addEventListener('click', () => showMainView('home'));
   navStudioBtn.addEventListener('click', () => showMainView('studio'));
+  navSettingsBtn.addEventListener('click', () => {
+      initialSettingsState = {
+          staticBg: currentStaticBackground
+      };
+      
+      changeUsernameInput.value = currentUsername;
+      userAvatarPreview.innerHTML = generateAvatar(currentUsername, currentUserAvatar);
+      applyFontSize(currentFontSize);
+      applyGlassModeSelection(currentGlassMode);
+      applySendWithEnterSelection(currentSendWithEnter);
+      
+      tempStaticBackground = null;
+      backgroundImageInput.value = '';
+      backgroundUploadStatus.textContent = '';
+      updateStatusText.textContent = '';
+
+      showModal('settings-modal');
+  });
   backToHomeBtn.addEventListener('click', () => showMainView('home'));
   backToHomeFromVideoBtn.addEventListener('click', () => showMainView('home'));
   
