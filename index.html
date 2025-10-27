@@ -87,25 +87,30 @@
 
                   <div class="flex-1 overflow-y-auto hide-scrollbar">
                     <div class="px-4">
-                      <div id="stories-section" class="p-4 bg-gradient-to-b from-blue-400 to-blue-500 rounded-2xl text-white shadow-lg my-4">
-                          <div class="flex justify-between items-center mb-4">
-                              <h3 class="font-bold">All Story</h3>
-                               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" /></svg>
-                          </div>
-                          <div id="stories-container" class="flex space-x-4 rtl:space-x-reverse overflow-x-auto pb-2 -mx-4 px-4 hide-scrollbar">
-                              <div class="flex flex-col items-center space-y-1 flex-shrink-0 w-16 text-center">
-                                  <div class="w-16 h-16 rounded-full border-2 border-dashed border-white/80 flex items-center justify-center cursor-pointer bg-white/10">
-                                      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" /></svg>
-                                  </div>
-                                  <span class="text-xs opacity-90">Add Story</span>
-                              </div>
-                              <!-- Stories will be injected by JS -->
-                          </div>
-                      </div>
+                      
+                      <div id="new-stories-search-section" class="rounded-3xl p-5 my-4 text-white shadow-lg" style="background: linear-gradient(160deg, #49AAFF 0%, #188BEF 100%);">
+                        <!-- Stories Container -->
+                        <div id="stories-container" class="flex items-start space-x-4 rtl:space-x-reverse overflow-x-auto pb-2 -mx-5 px-5 hide-scrollbar">
+                            <!-- JS will populate this -->
+                        </div>
 
-                      <div class="relative mb-4">
-                        <input type="text" placeholder="Select or search for recent chats..." class="w-full bg-white rounded-lg py-3 pl-12 pr-4 focus:outline-none shadow-sm text-sm" />
-                        <div class="absolute inset-y-0 left-0 flex items-center pl-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg></div>
+                        <!-- New Search Bar -->
+                        <div class="mt-6 relative flex items-center">
+                            <div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
+                                <svg class="w-5 h-5 text-white/70" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                </svg>
+                            </div>
+                            <input type="text" placeholder="جستجوی دوستان..." class="w-full bg-white/20 rounded-xl py-3 pl-12 pr-12 focus:outline-none placeholder-white/70 text-white text-sm">
+                            <div class="absolute inset-y-0 left-0 flex items-center pl-2">
+                                <button class="p-2 rounded-lg transition-colors hover:bg-white/20">
+                                    <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                      <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 12h9.75m-9.75 6h9.75M3.75 6h1.5m-1.5 6h1.5m-1.5 6h1.5"></path>
+                                      <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 4.5v3m0 6v3m0 6v3"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
                       </div>
 
                       <div class="flex space-x-2 rtl:space-x-reverse overflow-x-auto pb-4 hide-scrollbar">
@@ -201,7 +206,7 @@
                     <span class="nav-text font-bold ml-2 hidden whitespace-nowrap">Studio</span>
                 </button>
                 <button id="nav-settings-btn" class="bottom-nav-btn h-12 rounded-xl flex items-center justify-center transition-all duration-300 ease-in-out px-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.24-.438.613-.438.995s.145.755.438.995l1.003.827c.424.35.534.954.26 1.431l-1.296 2.247a1.125 1.125 0 0 1-1.37.49l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.063-.374-.313.686-.645-.87a6.52 6.52 0 0 1-.22-.127c-.324-.196-.72-.257-1.075-.124l-1.217.456a1.125 1.125 0 0 1-1.37-.49l-1.296-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.437-.995s-.145-.755-.437-.995l-1.004-.827a1.125 1.125 0 0 1-.26-1.431l1.296-2.247a1.125 1.125 0 0 1 1.37.49l1.217.456c.355.133.75.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.24-.438.613-.438.995s.145.755.438.995l1.003.827c.424.35.534.954.26 1.431l-1.296-2.247a1.125 1.125 0 0 1-1.37.49l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.063-.374-.313.686-.645-.87a6.52 6.52 0 0 1-.22-.127c-.324-.196-.72-.257-1.075-.124l-1.217.456a1.125 1.125 0 0 1-1.37-.49l-1.296-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.437-.995s-.145-.755-.437-.995l-1.004-.827a1.125 1.125 0 0 1-.26-1.431l1.296-2.247a1.125 1.125 0 0 1 1.37.49l1.217.456c.355.133.75.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /></svg>
                     <span class="nav-text font-bold ml-2 hidden whitespace-nowrap">Settings</span>
                 </button>
             </div>

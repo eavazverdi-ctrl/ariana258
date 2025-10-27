@@ -459,21 +459,32 @@ const renderStories = () => {
     const container = document.getElementById('stories-container');
     if (!container) return;
 
-    // Clear existing stories (anything that's not the "Add Story" button)
-    const existingStories = container.querySelectorAll('.story-item');
-    existingStories.forEach(story => story.remove());
-    
+    container.innerHTML = ''; // Clear existing
     const fragment = document.createDocumentFragment();
 
+    // Add "Add Story" button first
+    const addStoryDiv = document.createElement('div');
+    addStoryDiv.className = 'flex flex-col items-center space-y-2 flex-shrink-0 text-center';
+    addStoryDiv.innerHTML = `
+        <button class="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center cursor-pointer">
+            <svg class="w-8 h-8 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+        </button>
+        <span class="text-xs opacity-90 w-16 truncate">افزودن</span>
+    `;
+    fragment.appendChild(addStoryDiv);
+
+    // Render actual stories
     storiesData.forEach(story => {
         const storyDiv = document.createElement('div');
-        storyDiv.className = 'story-item flex flex-col items-center space-y-1 flex-shrink-0 w-16 text-center';
+        storyDiv.className = 'story-item flex flex-col items-center space-y-2 flex-shrink-0 text-center';
         
         storyDiv.innerHTML = `
-            <div class="w-16 h-16 rounded-full flex items-center justify-center p-1" style="background: rgba(2, 95, 178, 0.7)">
+            <div class="w-16 h-16 rounded-full flex items-center justify-center bg-blue-900/30 p-0.5">
                 <img src="${story.avatar}" class="w-full h-full rounded-full object-cover border-2 border-white" alt="${story.name}'s story">
             </div>
-            <span class="text-xs opacity-90">${story.name}</span>
+            <span class="text-xs opacity-90 w-16 truncate">${story.name}</span>
         `;
         fragment.appendChild(storyDiv);
     });
