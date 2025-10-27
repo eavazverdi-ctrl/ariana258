@@ -52,6 +52,15 @@ let userProfilesCache = {};
 let lastActiveViewId = 'home-container';
 let activeMainView = null;
 
+const storiesData = [
+    { name: 'Henry', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100&h=100&auto=format&fit=crop,ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
+    { name: 'Albert Flores', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=100&h=100&auto=format&fit=crop,ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
+    { name: 'Floyd', avatar: 'https://images.unsplash.com/photo-1499996860823-5214fcc65f8f?q=80&w=100&h=100&auto=format&fit=crop,ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
+    { name: 'Kathryn', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=100&h=100&auto=format&fit=crop,ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
+    { name: 'Jane', avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=100&h=100&auto=format&fit=crop,ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
+    { name: 'Robert', avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=100&h=100&auto=format&fit=crop,ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
+];
+
 // --- WebRTC State ---
 let localStream = null;
 let peerConnections = {};
@@ -154,8 +163,7 @@ const hideAllModals = () => {
 
 const showMainView = async (view) => {
     const previousView = activeMainView;
-    if (previousView === view) return;
-
+    
     activeMainView = view;
 
     // Handle cleanup for leaving views
@@ -173,7 +181,7 @@ const showMainView = async (view) => {
     [homeContainer, chatContainer, videoCallContainer].forEach(c => c.classList.add('view-hidden'));
 
     // Show/hide nav based on view
-    if (view === 'chat') {
+    if (view === 'chat' || view === 'studio') {
         mainNav.classList.add('view-hidden');
     } else {
         mainNav.classList.remove('view-hidden');
@@ -447,6 +455,33 @@ userSettingsForm.addEventListener('submit', async (e) => {
 });
 
 // --- Home Screen Logic ---
+const renderStories = () => {
+    const container = document.getElementById('stories-container');
+    if (!container) return;
+
+    // Clear existing stories (anything that's not the "Add Story" button)
+    const existingStories = container.querySelectorAll('.story-item');
+    existingStories.forEach(story => story.remove());
+    
+    const fragment = document.createDocumentFragment();
+
+    storiesData.forEach(story => {
+        const storyDiv = document.createElement('div');
+        storyDiv.className = 'story-item flex flex-col items-center space-y-1 flex-shrink-0 w-16 text-center';
+        
+        storyDiv.innerHTML = `
+            <div class="w-16 h-16 rounded-full flex items-center justify-center p-1" style="background: rgba(2, 95, 178, 0.7)">
+                <img src="${story.avatar}" class="w-full h-full rounded-full object-cover border-2 border-white" alt="${story.name}'s story">
+            </div>
+            <span class="text-xs opacity-90">${story.name}</span>
+        `;
+        fragment.appendChild(storyDiv);
+    });
+
+    container.appendChild(fragment);
+};
+
+
 const renderHomeScreen = () => {
     chatListContainer.innerHTML = `
         <div class="mb-4">
@@ -470,6 +505,8 @@ const renderHomeScreen = () => {
     document.getElementById('global-chat-item').addEventListener('click', () => {
         showMainView('chat');
     });
+
+    renderStories();
 };
 
 
@@ -567,12 +604,15 @@ const renderMessages = async (messages, prepend = false, isInitialLoad = false) 
         let messageDate;
         if (message.timestamp && typeof message.timestamp.toDate === 'function') {
             messageDate = message.timestamp.toDate();
+        } else if (message.timestamp && typeof message.timestamp === 'object' && message.timestamp.seconds) { // Handle Firestore timestamp-like object
+            messageDate = new Date(message.timestamp.seconds * 1000 + (message.timestamp.nanoseconds || 0) / 1000000);
         } else if (message.timestamp && typeof message.timestamp === 'number') {
             messageDate = new Date(message.timestamp);
         } else {
             console.warn('Skipping message with invalid or missing timestamp:', message);
             continue;
         }
+
 
         const currentDateStr = messageDate.toDateString();
         if (currentDateStr !== lastDate) {
