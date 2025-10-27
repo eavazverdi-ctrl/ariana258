@@ -152,9 +152,11 @@ const hideAllModals = () => {
 };
 
 const showMainView = async (view) => {
-    if (activeMainView === view) return;
-
     const previousView = activeMainView;
+    
+    // Prevent re-entering the same view if it's already active, except for 'home' which should be re-renderable
+    if (previousView === view && view !== 'home') return;
+    
     activeMainView = view;
 
     // Handle cleanup for leaving views
@@ -188,6 +190,7 @@ const showMainView = async (view) => {
     
     updateBottomNavUI(view);
 };
+
 
 const updateBottomNavUI = (activeView) => {
     const btnMap = {
