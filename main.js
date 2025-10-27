@@ -54,7 +54,7 @@ let userProfilesCache = {}; // Cache for user profiles { userId: { username, ava
 let lastActiveViewId = 'chat-container'; 
 
 // --- New Navigation/Animation State ---
-let activeTab = 'chat';
+let activeTab = null;
 let isSwitchingTabs = false;
 let isInitialLoad = true;
 
@@ -173,56 +173,53 @@ const switchTab = async (tabName) => {
     const previousTab = activeTab;
     activeTab = tabName;
 
-    const studioBtn = navStudioBtn;
+    const chatView = document.getElementById('chat-container');
+    const studioView = document.getElementById('video-call-container');
     const chatBtn = navChatBtn;
-    
-    const activeContainer = document.getElementById(`${previousTab === 'studio' ? 'video-call' : 'chat'}-container`);
-    const newContainer = document.getElementById(`${tabName === 'studio' ? 'video-call' : 'chat'}-container`);
+    const studioBtn = navStudioBtn;
 
-    // 1. Animate buttons
-    const studioActiveClasses = ['bg-blue-500', 'text-white', 'shadow-md'];
-    const studioInactiveClasses = ['bg-white/20', 'text-gray-800'];
-    
-    const chatActiveClasses = ['bg-blue-600', 'shadow-lg', 'scale-105'];
-    const chatInactiveClasses = ['bg-transparent', 'scale-100'];
+    const studioActiveClasses = ['bg-blue-500/80', 'text-white'];
+    const studioInactiveClasses = ['bg-transparent', 'text-gray-800'];
+
+    const chatActiveClasses = ['text-blue-600', 'scale-105'];
+    const chatInactiveClasses = ['text-gray-600', 'scale-100'];
 
     if (tabName === 'studio') {
+        studioView.classList.remove('view-hidden');
+        chatView.classList.add('view-hidden');
+
         studioBtn.classList.remove(...studioInactiveClasses);
         studioBtn.classList.add(...studioActiveClasses);
         chatBtn.classList.remove(...chatActiveClasses);
         chatBtn.classList.add(...chatInactiveClasses);
-    } else { // chat becomes active
-        chatBtn.classList.remove(...chatInactiveClasses);
-        chatBtn.classList.add(...chatActiveClasses);
-        studioBtn.classList.remove(...studioActiveClasses);
-        studioBtn.classList.add(...studioInactiveClasses);
-    }
-    
-    // 2. Switch containers instantly
-    activeContainer.classList.add('view-hidden');
-    newContainer.classList.remove('view-hidden');
 
-    // 3. Handle room logic
-    if (tabName === 'studio') {
         if (messagesUnsubscribe) {
             messagesUnsubscribe();
             messagesUnsubscribe = null;
         }
         await enterVideoCallRoom();
-    } else { // chat
-        if (currentRoomId === VIDEO_CALL_ROOM_ID) {
+    } else { // 'chat'
+        chatView.classList.remove('view-hidden');
+        studioView.classList.add('view-hidden');
+
+        chatBtn.classList.remove(...chatInactiveClasses);
+        chatBtn.classList.add(...chatActiveClasses);
+        studioBtn.classList.remove(...studioActiveClasses);
+        studioBtn.classList.add(...studioInactiveClasses);
+        
+        if (previousTab === 'studio') {
             await cleanUpVideoCall();
         }
-        if (currentRoomId !== GLOBAL_CHAT_ROOM_ID) {
+        if (currentRoomId !== GLOBAL_CHAT_ROOM_ID || previousTab === 'studio') {
             const roomDoc = await getDoc(doc(db, 'rooms', GLOBAL_CHAT_ROOM_ID));
             if (roomDoc.exists()) {
                 enterChatRoom(GLOBAL_CHAT_ROOM_ID, roomDoc.data());
             }
         }
     }
-    
-    lastActiveViewId = newContainer.id;
-    setTimeout(() => { isSwitchingTabs = false; }, 50); // Shorter timeout to prevent rapid clicking issues
+
+    lastActiveViewId = (tabName === 'studio') ? 'video-call-container' : 'chat-container';
+    setTimeout(() => { isSwitchingTabs = false; }, 50);
 };
 
 navChatBtn.addEventListener('click', () => switchTab('chat'));
@@ -1252,4 +1249,307 @@ const joinVideoSlot = async (slotId) => {
         const videoEl = newSlotEl.querySelector('video');
         videoEl.srcObject = localStream;
         videoEl.muted = true;
-        newSlotEl.querySelector('.video-feed').classList.remove('hidden
+        newSlotEl.querySelector('.video-feed').classList.remove('hidden');
+        newSlotEl.querySelector('.avatar-placeholder').classList.add('hidden');
+    } else {
+        newSlotEl.querySelector('.avatar-placeholder').classList.remove('hidden');
+        newSlotEl.querySelector('.avatar-placeholder').innerHTML = generateAvatar(currentUsername, currentUserAvatar);
+        newSlotEl.querySelector('.video-feed').classList.add('hidden');
+    }
+    newSlotEl.querySelector('.empty-placeholder').classList.add('hidden');
+    newSlotEl.querySelector('.name-pill').textContent = currentUsername;
+    newSlotEl.dataset.occupantId = currentUserId;
+
+    // --- Firestore Operations (in background) ---
+    const batch = writeBatch(db);
+
+    // Leave old slot if exists
+    if (oldSlotId) {
+        const oldSlotRef = doc(db, 'videoRooms', VIDEO_CALL_ROOM_ID, 'slots', `slot_${oldSlotId}`);
+        batch.delete(oldSlotRef);
+        // Clean up UI for old slot
+        const oldSlotEl = document.getElementById(`video-slot-${oldSlotId}`);
+        if(oldSlotEl) resetVideoSlot(oldSlotEl);
+    }
+    
+    // Join new slot
+    const newSlotRef = doc(db, 'videoRooms', VIDEO_CALL_ROOM_ID, 'slots', `slot_${slotId}`);
+    batch.set(newSlotRef, {
+        occupantId: currentUserId,
+        occupantName: currentUsername,
+        occupantAvatar: currentUserAvatar,
+        timestamp: serverTimestamp()
+    });
+
+    try {
+        await batch.commit();
+        // After successfully joining, initiate connections to others
+        const allSlotsRef = collection(db, 'videoRooms', VIDEO_CALL_ROOM_ID, 'slots');
+        const q = query(allSlotsRef, where('occupantId', '!=', currentUserId));
+        const otherUsersSnapshot = await getDocs(q);
+        otherUsersSnapshot.forEach(doc => {
+            if (doc.data().occupantId) {
+                initiatePeerConnection(doc.data().occupantId, true);
+            }
+        });
+    } catch (error) {
+        console.error("Error joining video slot:", error);
+        // Revert UI if firestore fails
+        myVideoSlotId = oldSlotId; 
+        if(newSlotEl) resetVideoSlot(newSlotEl);
+    }
+};
+
+const setupVideoCallListeners = () => {
+    // Listen for new users joining any slot
+    const slotsRef = collection(db, 'videoRooms', VIDEO_CALL_ROOM_ID, 'slots');
+    const slotsUnsubscribe = onSnapshot(slotsRef, (snapshot) => {
+        const currentOccupants = new Set();
+        snapshot.docs.forEach(doc => {
+            const slotData = doc.data();
+            const slotId = parseInt(doc.id.split('_')[1]);
+            const occupantId = slotData.occupantId;
+            currentOccupants.add(occupantId);
+
+            const slotEl = document.getElementById(`video-slot-${slotId}`);
+            if (!slotEl || slotEl.dataset.occupantId === occupantId) return;
+
+            // Update UI for the new occupant
+            slotEl.dataset.occupantId = occupantId;
+            slotEl.querySelector('.name-pill').textContent = slotData.occupantName;
+            slotEl.querySelector('.empty-placeholder').classList.add('hidden');
+
+            if (occupantId === currentUserId) {
+                 // This is my own slot, UI already handled by joinVideoSlot
+            } else {
+                slotEl.querySelector('.avatar-placeholder').classList.remove('hidden');
+                slotEl.querySelector('.avatar-placeholder').innerHTML = generateAvatar(slotData.occupantName, slotData.occupantAvatar);
+                
+                // If I have media, initiate connection
+                if (localStream) {
+                   initiatePeerConnection(occupantId, true); // I am the initiator
+                }
+            }
+        });
+
+        // Check for users who have left
+        document.querySelectorAll('.video-slot[data-occupant-id]').forEach(slotEl => {
+            const occupantId = slotEl.dataset.occupantId;
+            if (occupantId && occupantId !== currentUserId && !currentOccupants.has(occupantId)) {
+                resetVideoSlot(slotEl);
+                if (peerConnections[occupantId]) {
+                    peerConnections[occupantId].close();
+                    delete peerConnections[occupantId];
+                }
+            }
+        });
+    });
+    videoCallListeners.push(slotsUnsubscribe);
+
+    // Listen for signaling messages (offers, answers, ICE candidates)
+    const signalsRef = collection(db, 'videoRooms', VIDEO_CALL_ROOM_ID, 'users', currentUserId, 'signals');
+    const signalsUnsubscribe = onSnapshot(signalsRef, (snapshot) => {
+        snapshot.docChanges().forEach(async (change) => {
+            if (change.type === 'added') {
+                const signalData = change.doc.data();
+                const fromUserId = signalData.from;
+                
+                if (!peerConnections[fromUserId]) {
+                    initiatePeerConnection(fromUserId, false); // Not the initiator
+                }
+                const pc = peerConnections[fromUserId];
+                
+                if (signalData.offer) {
+                    await pc.setRemoteDescription(new RTCSessionDescription(signalData.offer));
+                    const answer = await pc.createAnswer();
+                    await pc.setLocalDescription(answer);
+                    const answerSignalRef = doc(collection(db, 'videoRooms', VIDEO_CALL_ROOM_ID, 'users', fromUserId, 'signals'));
+                    await setDoc(answerSignalRef, { from: currentUserId, answer: pc.localDescription.toJSON() });
+                } else if (signalData.answer) {
+                    await pc.setRemoteDescription(new RTCSessionDescription(signalData.answer));
+                } else if (signalData.iceCandidate) {
+                    try {
+                        await pc.addIceCandidate(new RTCIceCandidate(signalData.iceCandidate));
+                    } catch (e) { console.error('Error adding received ice candidate', e); }
+                }
+                await deleteDoc(change.doc.ref);
+            }
+        });
+    });
+    videoCallListeners.push(signalsUnsubscribe);
+};
+
+const initiatePeerConnection = async (remoteUserId, isInitiator) => {
+    if (peerConnections[remoteUserId]) return;
+
+    const pc = new RTCPeerConnection(stunServers);
+    peerConnections[remoteUserId] = pc;
+    
+    if(localStream) {
+        localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
+    }
+
+    pc.ontrack = (event) => {
+        const remoteStream = event.streams[0];
+        const slotEl = document.querySelector(`.video-slot[data-occupant-id="${remoteUserId}"]`);
+        if (slotEl) {
+            const videoEl = slotEl.querySelector('video');
+            videoEl.srcObject = remoteStream;
+            videoEl.muted = false;
+            slotEl.querySelector('.video-feed').classList.remove('hidden');
+            slotEl.querySelector('.avatar-placeholder').classList.add('hidden');
+        }
+    };
+
+    pc.onicecandidate = (event) => {
+        if (event.candidate) {
+            const iceCandidateRef = doc(collection(db, 'videoRooms', VIDEO_CALL_ROOM_ID, 'users', remoteUserId, 'signals'));
+            setDoc(iceCandidateRef, { from: currentUserId, iceCandidate: event.candidate.toJSON() });
+        }
+    };
+    
+    if (isInitiator) {
+        const offer = await pc.createOffer();
+        await pc.setLocalDescription(offer);
+        const offerSignalRef = doc(collection(db, 'videoRooms', VIDEO_CALL_ROOM_ID, 'users', remoteUserId, 'signals'));
+        await setDoc(offerSignalRef, { from: currentUserId, offer: pc.localDescription.toJSON() });
+    }
+};
+
+const cleanUpVideoCall = async () => {
+    // Stop local media tracks
+    if (localStream) {
+        localStream.getTracks().forEach(track => track.stop());
+        localStream = null;
+    }
+
+    // Close all peer connections
+    for (const userId in peerConnections) {
+        peerConnections[userId].close();
+    }
+    peerConnections = {};
+
+    // Unsubscribe from all Firestore listeners
+    videoCallListeners.forEach(unsubscribe => unsubscribe());
+    videoCallListeners = [];
+
+    // Remove myself from the video room slots in Firestore
+    if (myVideoSlotId) {
+        const mySlotRef = doc(db, 'videoRooms', VIDEO_CALL_ROOM_ID, 'slots', `slot_${myVideoSlotId}`);
+        await deleteDoc(mySlotRef);
+    }
+    
+    // Clear my signaling collection
+    const mySignalsRef = collection(db, 'videoRooms', VIDEO_CALL_ROOM_ID, 'users', currentUserId, 'signals');
+    const signalsSnapshot = await getDocs(mySignalsRef);
+    const batch = writeBatch(db);
+    signalsSnapshot.forEach(doc => batch.delete(doc.ref));
+    await batch.commit();
+
+    // Reset UI
+    document.querySelectorAll('.video-slot').forEach(resetVideoSlot);
+    myVideoSlotId = null;
+    currentRoomId = null; // Important to reset the room ID
+};
+
+toggleMicBtn.addEventListener('click', () => {
+    if (!localStream) return;
+    isMicOn = !isMicOn;
+    localStream.getAudioTracks().forEach(track => track.enabled = isMicOn);
+    toggleMicBtn.classList.toggle('bg-green-500/80', isMicOn);
+    toggleMicBtn.classList.toggle('bg-red-500/80', !isMicOn);
+});
+
+toggleCameraBtn.addEventListener('click', () => {
+    if (!localStream) return;
+    isCameraOn = !isCameraOn;
+    localStream.getVideoTracks().forEach(track => track.enabled = isCameraOn);
+    toggleCameraBtn.classList.toggle('bg-green-500/80', isCameraOn);
+    toggleCameraBtn.classList.toggle('bg-red-500/80', !isCameraOn);
+});
+
+
+// --- Main App Flow ---
+const initializeRooms = async () => {
+  const globalChatRef = doc(db, 'rooms', GLOBAL_CHAT_ROOM_ID);
+  const videoRoomRef = doc(db, 'rooms', VIDEO_CALL_ROOM_ID);
+
+  try {
+    const globalChatDoc = await getDoc(globalChatRef);
+    if (!globalChatDoc.exists()) {
+      await setDoc(globalChatRef, {
+        name: GLOBAL_CHAT_ROOM_NAME,
+        createdAt: serverTimestamp(),
+        isPublic: true,
+        creatorId: 'system',
+      });
+    }
+
+    const videoRoomDoc = await getDoc(videoRoomRef);
+    if (!videoRoomDoc.exists()) {
+      await setDoc(videoRoomRef, {
+        name: VIDEO_CALL_ROOM_NAME,
+        createdAt: serverTimestamp(),
+        isPublic: true,
+        creatorId: 'system'
+      });
+    }
+  } catch (error) {
+    console.error("Error initializing default rooms:", error);
+  }
+};
+
+const startApp = async () => {
+  // Load settings
+  currentUsername = localStorage.getItem(USERNAME_KEY) || '';
+  currentUserAvatar = localStorage.getItem(USER_AVATAR_KEY) || null;
+  currentFontSize = localStorage.getItem(FONT_SIZE_KEY) || 'md';
+  currentGlassMode = localStorage.getItem(GLASS_MODE_KEY) || 'off';
+  currentSendWithEnter = localStorage.getItem(SEND_WITH_ENTER_KEY) || 'on';
+  
+  try {
+    const settingsDoc = await getDoc(doc(db, 'app_settings', 'global'));
+    if (settingsDoc.exists()) {
+      currentStaticBackground = settingsDoc.data().backgroundUrl;
+    }
+  } catch(e) {
+      console.warn("Could not fetch background settings, possibly offline.", e);
+  }
+
+  // Set initial UI state based on loaded settings
+  applyFontSize(currentFontSize);
+  applyBackgroundSettings(currentStaticBackground);
+
+  // Initialize rooms, then enter the global chat room
+  await initializeRooms();
+  const globalRoomDoc = await getDoc(doc(db, 'rooms', GLOBAL_CHAT_ROOM_ID));
+  if (globalRoomDoc.exists()) {
+    enterChatRoom(GLOBAL_CHAT_ROOM_ID, globalRoomDoc.data());
+  }
+
+  showView(lastActiveViewId);
+  
+  // Set initial tab state
+  if (isInitialLoad) {
+      isInitialLoad = false;
+      await switchTab('chat'); // Start on chat tab
+  }
+};
+
+// --- Entry Point ---
+document.addEventListener('DOMContentLoaded', () => {
+  if (localStorage.getItem(APP_ACCESS_KEY) === 'true') {
+    startApp();
+  } else {
+    showView('username-modal');
+  }
+});
+
+// Handle user leaving the page
+window.addEventListener('beforeunload', () => {
+    if (currentRoomId === VIDEO_CALL_ROOM_ID && myVideoSlotId) {
+        // This is a fire-and-forget operation, as we can't wait for it to complete.
+        const mySlotRef = doc(db, 'videoRooms', VIDEO_CALL_ROOM_ID, 'slots', `slot_${myVideoSlotId}`);
+        deleteDoc(mySlotRef);
+    }
+});
