@@ -50,7 +50,7 @@ let currentStaticBackground = null;
 let messagesUnsubscribe = null;
 let userProfilesCache = {};
 let lastActiveViewId = 'home-container';
-let activeMainView = 'home';
+let activeMainView = null;
 
 // --- WebRTC State ---
 let localStream = null;
@@ -126,6 +126,7 @@ const filePreviewContainer = document.getElementById('file-preview-container');
 const fileConfirmStatus = document.getElementById('file-confirm-status');
 const cancelFileUploadBtn = document.getElementById('cancel-file-upload');
 const confirmFileUploadBtn = document.getElementById('confirm-file-upload');
+const mainNav = document.querySelector('nav');
 const navChatsBtn = document.getElementById('nav-chats-btn');
 const navStudioBtn = document.getElementById('nav-studio-btn');
 const navSettingsBtn = document.getElementById('nav-settings-btn');
@@ -153,10 +154,8 @@ const hideAllModals = () => {
 
 const showMainView = async (view) => {
     const previousView = activeMainView;
-    
-    // Prevent re-entering the same view if it's already active, except for 'home' which should be re-renderable
-    if (previousView === view && view !== 'home') return;
-    
+    if (previousView === view) return;
+
     activeMainView = view;
 
     // Handle cleanup for leaving views
@@ -172,6 +171,13 @@ const showMainView = async (view) => {
 
     // Hide all main views
     [homeContainer, chatContainer, videoCallContainer].forEach(c => c.classList.add('view-hidden'));
+
+    // Show/hide nav based on view
+    if (view === 'chat') {
+        mainNav.classList.add('view-hidden');
+    } else {
+        mainNav.classList.remove('view-hidden');
+    }
 
     // Show the target view and run setup logic
     if (view === 'home') {
@@ -483,8 +489,54 @@ const enterChatRoom = (roomId, roomData) => {
 };
 
 const loadAndListenForMessages = () => {
-    // ... (function is unchanged)
+    if (!currentRoomId) return;
+    loadingSpinner.classList.remove('hidden');
+
+    const messagesRef = collection(db, 'rooms', currentRoomId, 'messages');
+    const q = query(messagesRef, orderBy('timestamp', 'desc'), limit(MESSAGES_PER_PAGE));
+
+    let isInitialQuery = true;
+
+    messagesUnsubscribe = onSnapshot(q, async (snapshot) => {
+        if (isInitialQuery) {
+            messagesList.innerHTML = '';
+            if (snapshot.empty) {
+                loadingSpinner.classList.add('hidden');
+                messagesList.innerHTML = `<li class="text-center text-gray-500 my-4">اولین پیام را ارسال کنید!</li>`;
+                reachedEndOfMessages = true;
+                isInitialQuery = false;
+                return;
+            }
+
+            const initialMessages = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })).reverse();
+            
+            if (!snapshot.empty) {
+                oldestMessageDoc = snapshot.docs[snapshot.docs.length - 1];
+            }
+            reachedEndOfMessages = snapshot.docs.length < MESSAGES_PER_PAGE;
+            
+            await renderMessages(initialMessages, false, true);
+            
+        } else {
+            const newMessages = snapshot.docChanges()
+                .filter(change => change.type === 'added')
+                .map(change => ({ id: change.doc.id, ...change.doc.data() }))
+                .sort((a, b) => (a.timestamp?.toMillis() || 0) - (b.timestamp?.toMillis() || 0));
+            
+            if(newMessages.length > 0) {
+                await renderMessages(newMessages, false, false);
+            }
+        }
+        
+        isInitialQuery = false;
+        loadingSpinner.classList.add('hidden');
+    }, (error) => {
+        console.error("Error listening to messages:", error);
+        loadingSpinner.classList.add('hidden');
+        messagesList.innerHTML = `<li class="text-center text-red-500 my-4">خطا در بارگذاری پیام‌ها.</li>`;
+    });
 };
+
 
 const loadOlderMessages = async () => {
   // ... (function is unchanged)
@@ -499,8 +551,96 @@ messagesContainer.addEventListener('scroll', () => {
 scrollToBottomBtn.addEventListener('click', () => { scrollToBottom('smooth'); });
 
 const renderMessages = async (messages, prepend = false, isInitialLoad = false) => {
-  // ... (function is unchanged)
+    if (messages.length === 0) return;
+
+    const userIds = new Set(messages.map(msg => msg.userId));
+    await Promise.all(Array.from(userIds).map(id => getUserProfile(id)));
+
+    let lastDate = null;
+    if (!prepend && messagesList.lastElementChild && messagesList.lastElementChild.dataset.date) {
+        lastDate = new Date(messagesList.lastElementChild.dataset.date).toDateString();
+    }
+    
+    const fragment = document.createDocumentFragment();
+
+    for (const message of messages) {
+        const messageDate = message.timestamp?.toDate();
+        if (!messageDate) continue;
+
+        const currentDateStr = messageDate.toDateString();
+        if (currentDateStr !== lastDate) {
+            const dateSeparator = document.createElement('li');
+            dateSeparator.className = 'text-center text-xs text-gray-500 my-3';
+            dateSeparator.innerHTML = formatDateSeparator(messageDate);
+            fragment.appendChild(dateSeparator);
+            lastDate = currentDateStr;
+        }
+
+        const authorProfile = userProfilesCache[message.userId] || { username: 'کاربر', avatarUrl: null };
+        const isMine = message.userId === currentUserId;
+        const fileUrl = message.fileUrl;
+        const fileType = message.fileType;
+
+        const li = document.createElement('li');
+        li.className = `flex gap-3 my-1.5 message-item ${isMine ? 'flex-row-reverse' : ''}`;
+        li.dataset.date = messageDate.toISOString();
+        li.dataset.id = message.id;
+
+        const avatarDiv = document.createElement('div');
+        avatarDiv.className = 'message-avatar w-10 h-10 rounded-full overflow-hidden flex-shrink-0 self-end cursor-pointer';
+        avatarDiv.innerHTML = generateAvatar(authorProfile.username, authorProfile.avatarUrl);
+        avatarDiv.dataset.authorId = message.userId;
+        avatarDiv.dataset.authorName = authorProfile.username;
+        avatarDiv.dataset.authorAvatarUrl = authorProfile.avatarUrl || '';
+        
+        const messageContentDiv = document.createElement('div');
+        messageContentDiv.className = `max-w-[75%] flex flex-col ${isMine ? 'items-end' : 'items-start'}`;
+
+        const bubbleDiv = document.createElement('div');
+        bubbleDiv.className = `p-3 rounded-2xl message-bubble ${isMine ? 'bg-blue-500 text-white rounded-br-lg' : 'bg-white text-gray-800 rounded-bl-lg'}`;
+
+        let contentHTML = '';
+        if (fileUrl && fileType) {
+            if (fileType.startsWith('image/')) {
+                contentHTML = `<img src="${fileUrl}" class="max-w-xs max-h-64 rounded-lg cursor-pointer" onclick="window.open('${fileUrl}', '_blank')" alt="Image attachment"/>`;
+            } else {
+                contentHTML = `<a href="${fileUrl}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 p-2 bg-gray-100/20 rounded-lg hover:bg-gray-100/40 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                    <span class="truncate">${message.fileName || 'دانلود فایل'}</span>
+                </a>`;
+            }
+        }
+        if (message.text) {
+             contentHTML += `<p class="message-text whitespace-pre-wrap break-words">${message.text}</p>`;
+        }
+        bubbleDiv.innerHTML = contentHTML;
+
+        const timeSpan = document.createElement('span');
+        timeSpan.className = `text-xs mt-1 ${isMine ? 'text-gray-400' : 'text-gray-500'}`;
+        timeSpan.textContent = formatTime(messageDate);
+        
+        messageContentDiv.appendChild(bubbleDiv);
+        messageContentDiv.appendChild(timeSpan);
+        li.appendChild(avatarDiv);
+        li.appendChild(messageContentDiv);
+        fragment.appendChild(li);
+    }
+    
+    const shouldScroll = !isInitialLoad && (!messagesContainer.matches(':hover') && (messagesContainer.scrollHeight - messagesContainer.scrollTop - messagesContainer.clientHeight < 250));
+
+    if (prepend) {
+        const oldScrollHeight = messagesContainer.scrollHeight;
+        messagesList.prepend(fragment);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight - oldScrollHeight;
+    } else {
+        messagesList.appendChild(fragment);
+    }
+    
+    if (shouldScroll || isInitialLoad) {
+        scrollToBottom();
+    }
 };
+
 
 // --- Avatar Click Logic ---
 const showUserAvatar = (name, url) => {
