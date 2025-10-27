@@ -498,17 +498,17 @@ const renderStories = () => {
 const renderHomeScreen = () => {
     chatListContainer.innerHTML = `
         <div class="mb-4">
-            <h3 class="font-bold text-gray-800 mb-2">All Chats</h3>
-            <div id="global-chat-item" class="flex items-center p-3 rounded-2xl cursor-pointer hover:bg-gray-100 transition-colors">
+            <h3 class="font-bold text-gray-800 dark:text-gray-200 mb-2 p-2">چت‌ها</h3>
+            <div id="global-chat-item" class="flex items-center p-3 rounded-2xl cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
                 <div class="w-14 h-14 rounded-full overflow-hidden flex-shrink-0 mr-4 rtl:mr-0 rtl:ml-4 bg-blue-200">
                     ${generateAvatar(GLOBAL_CHAT_ROOM_NAME, null)}
                 </div>
                 <div class="flex-1 min-w-0">
                     <div class="flex justify-between items-center">
-                        <p class="font-bold text-gray-800 truncate">${GLOBAL_CHAT_ROOM_NAME}</p>
+                        <p class="font-bold text-gray-800 dark:text-gray-100 truncate">${GLOBAL_CHAT_ROOM_NAME}</p>
                     </div>
                     <div class="flex justify-between items-center mt-1">
-                        <p class="text-sm text-gray-500 truncate">گفتگوی عمومی آریانا</p>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 truncate">گفتگوی عمومی آریانا</p>
                     </div>
                 </div>
             </div>
@@ -657,14 +657,15 @@ const renderMessages = async (messages, prepend = false, isInitialLoad = false) 
         messageContentDiv.className = `max-w-[75%] flex flex-col ${isMine ? 'items-end' : 'items-start'}`;
 
         const bubbleDiv = document.createElement('div');
-        bubbleDiv.className = `p-3 rounded-2xl message-bubble ${isMine ? 'bg-blue-500 text-white rounded-br-lg' : 'bg-white text-gray-800 rounded-bl-lg'}`;
+        bubbleDiv.className = `p-3 rounded-2xl message-bubble ${isMine ? 'bg-blue-500 text-white rounded-br-lg' : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-bl-lg'}`;
+
 
         let contentHTML = '';
         if (fileUrl && fileType) {
             if (fileType.startsWith('image/')) {
                 contentHTML = `<img src="${fileUrl}" class="max-w-xs max-h-64 rounded-lg cursor-pointer" onclick="window.open('${fileUrl}', '_blank')" alt="Image attachment"/>`;
             } else {
-                contentHTML = `<a href="${fileUrl}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 p-2 bg-gray-100/20 rounded-lg hover:bg-gray-100/40 transition-colors">
+                contentHTML = `<a href="${fileUrl}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 p-2 bg-gray-100/20 dark:bg-gray-800/20 rounded-lg hover:bg-gray-100/40 dark:hover:bg-gray-800/40 transition-colors">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
                     <span class="truncate">${message.fileName || 'دانلود فایل'}</span>
                 </a>`;
@@ -676,7 +677,7 @@ const renderMessages = async (messages, prepend = false, isInitialLoad = false) 
         bubbleDiv.innerHTML = contentHTML;
 
         const timeSpan = document.createElement('span');
-        timeSpan.className = `text-xs mt-1 ${isMine ? 'text-gray-400' : 'text-gray-500'}`;
+        timeSpan.className = `text-xs mt-1 ${isMine ? 'text-gray-400 dark:text-gray-500' : 'text-gray-500 dark:text-gray-400'}`;
         timeSpan.textContent = formatTime(messageDate);
         
         messageContentDiv.appendChild(bubbleDiv);
@@ -750,12 +751,12 @@ const handleFileSelect = async (e) => {
     fileInput.value = '';
     filePreviewContainer.innerHTML = '';
     fileConfirmStatus.textContent = 'برای ارسال تایید کنید.';
-    fileConfirmStatus.className = 'text-sm text-center h-4 mb-4 text-gray-700';
+    fileConfirmStatus.className = 'text-sm text-center h-4 mb-4 text-gray-700 dark:text-gray-300';
     if (file.type.startsWith('image/')) {
         const previewUrl = URL.createObjectURL(file);
         filePreviewContainer.innerHTML = `<img src="${previewUrl}" class="max-w-full max-h-full object-contain" alt="Preview"/>`;
     } else {
-        filePreviewContainer.innerHTML = `<div class="text-center text-gray-700"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16 mx-auto text-gray-500"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" /></svg><p class="font-semibold mt-2 break-all">${file.name}</p></div>`;
+        filePreviewContainer.innerHTML = `<div class="text-center text-gray-700 dark:text-gray-300"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16 mx-auto text-gray-500"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" /></svg><p class="font-semibold mt-2 break-all">${file.name}</p></div>`;
     }
     showModal('file-confirm-modal');
 };
@@ -959,42 +960,39 @@ const listenForGlobalSettings = () => {
 
 const startApp = async () => {
   const loadingDiv = document.getElementById('loading');
-  const appAccessGranted = localStorage.getItem(APP_ACCESS_KEY);
-
-  if (!appAccessGranted) {
-    if (loadingDiv) loadingDiv.classList.add('view-hidden');
-    usernameModal.classList.remove('view-hidden');
-    mainContentWrapper.classList.add('view-hidden');
-    mainNav.classList.add('view-hidden');
-    usernameInput.focus();
-    return;
-  }
-
-  mainContentWrapper.classList.remove('view-hidden');
-  usernameModal.classList.add('view-hidden');
-
-  // Load and apply settings
-  const storedFontSize = localStorage.getItem(FONT_SIZE_KEY) || 'md';
-  const storedGlassMode = localStorage.getItem(GLASS_MODE_KEY) || 'off';
-  currentSendWithEnter = localStorage.getItem(SEND_WITH_ENTER_KEY) || 'on';
-  applyFontSize(storedFontSize);
-  applyGlassModeSelection(storedGlassMode);
-  applySendWithEnterSelection(currentSendWithEnter);
-
-  currentStaticBackground = localStorage.getItem(STATIC_BACKGROUND_KEY);
-  applyBackgroundSettings(currentStaticBackground);
-  listenForGlobalSettings();
   
   try {
+    const appAccessGranted = localStorage.getItem(APP_ACCESS_KEY);
+
+    if (!appAccessGranted) {
+      // New user flow: Show login modal and stop.
+      usernameModal.classList.remove('view-hidden');
+      mainContentWrapper.classList.add('view-hidden');
+      mainNav.classList.add('view-hidden');
+      usernameInput.focus();
+      return; // Stop here, the 'finally' block will remove the loader.
+    }
+
+    // Returning user flow: Load the main app.
+    mainContentWrapper.classList.remove('view-hidden');
+    usernameModal.classList.add('view-hidden');
+
+    // Load and apply settings from localStorage (this is synchronous and safe).
+    const storedFontSize = localStorage.getItem(FONT_SIZE_KEY) || 'md';
+    const storedGlassMode = localStorage.getItem(GLASS_MODE_KEY) || 'off';
+    currentSendWithEnter = localStorage.getItem(SEND_WITH_ENTER_KEY) || 'on';
+    applyFontSize(storedFontSize);
+    applyGlassModeSelection(storedGlassMode);
+    applySendWithEnterSelection(currentSendWithEnter);
+    currentStaticBackground = localStorage.getItem(STATIC_BACKGROUND_KEY);
+    applyBackgroundSettings(currentStaticBackground);
+
+    // Perform asynchronous operations that might fail (e.g., network requests).
     await ensureVideoCallRoomExists();
     await ensureGlobalChatRoomExists();
-  } catch(e) {
-    console.error("Fatal error during startup (ensure rooms exist):", e);
-    document.body.innerHTML = '<h1>خطای راه اندازی برنامه</h1><p>لطفا صفحه را رفرش کنید.</p>';
-    return;
-  }
-
-  try {
+    listenForGlobalSettings(); // Listens for changes, no need to await.
+    
+    // Fetch user profile.
     const userDoc = await getDoc(doc(db, 'users', currentUserId));
     if (userDoc.exists()) {
         const userData = userDoc.data();
@@ -1004,47 +1002,55 @@ const startApp = async () => {
         localStorage.setItem(USERNAME_KEY, currentUsername);
         localStorage.setItem(USER_AVATAR_KEY, currentUserAvatar || '');
     } else {
+        // Fallback to localStorage if user doc not found.
         currentUsername = localStorage.getItem(USERNAME_KEY);
         currentUserAvatar = localStorage.getItem(USER_AVATAR_KEY) || null;
     }
+  
+    await clearMyPreviousSlotOnStartup();
+  
+    // Setup UI event listeners.
+    navChatsBtn.addEventListener('click', () => showMainView('home'));
+    navStudioBtn.addEventListener('click', () => showMainView('studio'));
+    navSettingsBtn.addEventListener('click', () => {
+        initialSettingsState = { staticBg: currentStaticBackground };
+        changeUsernameInput.value = currentUsername;
+        userAvatarPreview.innerHTML = generateAvatar(currentUsername, currentUserAvatar);
+        applyFontSize(currentFontSize);
+        applyGlassModeSelection(currentGlassMode);
+        applySendWithEnterSelection(currentSendWithEnter);
+        tempStaticBackground = null;
+        backgroundImageInput.value = '';
+        backgroundUploadStatus.textContent = '';
+        updateStatusText.textContent = '';
+        showModal('settings-modal');
+    });
+    backToHomeBtn.addEventListener('click', () => showMainView('home'));
+    backToHomeFromVideoBtn.addEventListener('click', () => showMainView('home'));
+  
+    // Finalize UI state.
+    hideAllModals();
+    updateSendButtonState();
+    showMainView('home');
+    
   } catch (error) {
-    console.error("Error fetching user profile, using local data:", error);
-    currentUsername = localStorage.getItem(USERNAME_KEY);
-    currentUserAvatar = localStorage.getItem(USER_AVATAR_KEY) || null;
-  }
-  
-  await clearMyPreviousSlotOnStartup();
-  
-  // Setup nav listeners
-  navChatsBtn.addEventListener('click', () => showMainView('home'));
-  navStudioBtn.addEventListener('click', () => showMainView('studio'));
-  navSettingsBtn.addEventListener('click', () => {
-      initialSettingsState = {
-          staticBg: currentStaticBackground
-      };
-      
-      changeUsernameInput.value = currentUsername;
-      userAvatarPreview.innerHTML = generateAvatar(currentUsername, currentUserAvatar);
-      applyFontSize(currentFontSize);
-      applyGlassModeSelection(currentGlassMode);
-      applySendWithEnterSelection(currentSendWithEnter);
-      
-      tempStaticBackground = null;
-      backgroundImageInput.value = '';
-      backgroundUploadStatus.textContent = '';
-      updateStatusText.textContent = '';
-
-      showModal('settings-modal');
-  });
-  backToHomeBtn.addEventListener('click', () => showMainView('home'));
-  backToHomeFromVideoBtn.addEventListener('click', () => showMainView('home'));
-  
-  hideAllModals();
-  updateSendButtonState();
-  showMainView('home');
-  
-  if (loadingDiv) {
-      loadingDiv.remove();
+    console.error("App startup failed:", error);
+    // Display a user-friendly error message if anything goes wrong.
+    mainContentWrapper.innerHTML = `
+      <div class="h-full w-full flex flex-col items-center justify-center p-4 text-center">
+        <h1 class="text-2xl font-bold text-red-600 mb-4">خطا در بارگذاری برنامه</h1>
+        <p class="text-gray-700 dark:text-gray-300">اتصال به سرور برقرار نشد. لطفاً اینترنت خود را بررسی کرده و صفحه را رفرش کنید.</p>
+        <button onclick="location.reload()" class="mt-6 px-6 py-2 bg-blue-600 text-white rounded-lg">تلاش مجدد</button>
+      </div>`;
+    mainNav.classList.add('view-hidden');
+  } finally {
+    // This block is guaranteed to run, ensuring the loading spinner is always removed.
+    if (loadingDiv) {
+        // Use a fade-out effect for a smoother transition.
+        loadingDiv.style.transition = 'opacity 300ms ease-out';
+        loadingDiv.style.opacity = '0';
+        setTimeout(() => loadingDiv.remove(), 300);
+    }
   }
 };
 
