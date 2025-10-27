@@ -564,8 +564,15 @@ const renderMessages = async (messages, prepend = false, isInitialLoad = false) 
     const fragment = document.createDocumentFragment();
 
     for (const message of messages) {
-        const messageDate = message.timestamp?.toDate();
-        if (!messageDate) continue;
+        let messageDate;
+        if (message.timestamp && typeof message.timestamp.toDate === 'function') {
+            messageDate = message.timestamp.toDate();
+        } else if (message.timestamp && typeof message.timestamp === 'number') {
+            messageDate = new Date(message.timestamp);
+        } else {
+            console.warn('Skipping message with invalid or missing timestamp:', message);
+            continue;
+        }
 
         const currentDateStr = messageDate.toDateString();
         if (currentDateStr !== lastDate) {
@@ -763,7 +770,29 @@ const updateSendButtonState = () => {
 };
 
 const sendMessage = async () => {
-    // ... (function is unchanged)
+    const text = messageInput.value.trim();
+    if (!text && !fileToUpload) return;
+    if (!currentRoomId) return;
+
+    messageInput.value = '';
+    updateSendButtonState();
+    sendButton.disabled = true;
+
+    try {
+        await addDoc(collection(db, 'rooms', currentRoomId, 'messages'), {
+            text: text,
+            userId: currentUserId,
+            timestamp: serverTimestamp()
+        });
+        sendSound.play();
+    } catch (error) {
+        console.error("Error sending message:", error);
+        alert('خطا در ارسال پیام.');
+        messageInput.value = text; // Restore text on error
+    } finally {
+        sendButton.disabled = false;
+        updateSendButtonState();
+    }
 };
 
 sendButton.addEventListener('click', sendMessage);
