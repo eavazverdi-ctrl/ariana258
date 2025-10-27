@@ -1,6 +1,6 @@
 // Import Firebase and config
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { initializeAppCheck, ReCaptchaV3Provider } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app-check.js";
+// import { initializeAppCheck, ReCaptchaV3Provider } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app-check.js";
 import {
   getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp, getDoc, doc, updateDoc,
   limit, getDocs, startAfter, writeBatch, setDoc, deleteDoc, where
@@ -12,10 +12,12 @@ const app = initializeApp(FIREBASE_CONFIG);
 const db = getFirestore(app);
 
 // --- App Check Initialization ---
+/*
 const appCheck = initializeAppCheck(app, {
   provider: new ReCaptchaV3Provider('6LfPjdcrAAAAAFBVZqhaXAsFqekQhBgvKWu24rTm'),
   isTokenAutoRefreshEnabled: true
 });
+*/
 
 
 // --- User Identity & Settings ---
